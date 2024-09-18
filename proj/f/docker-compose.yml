@@ -1,8 +1,0 @@
-services:
-  app: 
-    container_name: front-edent2
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "4300:80"
