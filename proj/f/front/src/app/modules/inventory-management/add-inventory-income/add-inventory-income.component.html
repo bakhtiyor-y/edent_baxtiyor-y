@@ -1,0 +1,63 @@
+<p-dialog [(visible)]="isOpen" [style]="{width: '700px'}" header="{{'PROVIDE_INCOME'|translate}}" [modal]="true"
+    styleClass="p-fluid" (onHide)="close()">
+    <ng-template pTemplate="content">
+        <form [formGroup]="editForm">
+            <div class="p-field">
+                <label for="description">{{ 'DESCRIPTION' | translate }}</label>
+                <input type="text" pInputText id="description" formControlName="description" placeholder="{{'DESCRIPTION'|translate}}" required autofocus />
+                <small class="p-error block" *ngIf="editForm.get('description').invalid && (editForm.get('description').dirty || editForm.get('description').touched)">
+                    {{'DESCRIPTION_IS_REQUIRED'|translate}}
+                </small>
+            </div>
+            <div formArrayName="inventoryItems">
+                <div *ngFor="let settingItem of getFormArray('inventoryItems').controls; let i = index"
+                    [formGroupName]="i" class="p-formgrid p-grid">
+                    <div class="p-field p-col-6">
+                        <label for="name">{{'INVENTORY'|translate}}</label>
+                        <p-autoComplete formControlName="inventory" placeholder="{{'SELECT_INVENTORY'|translate}}"
+                            [suggestions]="inventories" (completeMethod)="search($event)" dataKey="id" field="name"
+                            (onSelect)="onInventorySelect($event, i)" (onClear)="onInventoryClear(i)" required>
+                        </p-autoComplete>
+                        <small class="p-error block"
+                            *ngIf="settingItem.controls.inventory.invalid && (settingItem.controls.inventory.dirty || settingItem.controls.inventory.touched)">
+                            {{'INVENTORY_IS_REQUIRED'|translate}}
+                        </small>
+                    </div>
+                    <div class="p-field p-col-2">
+                        <label for="quantity">{{ 'QUANTITY' | translate }}</label>
+                        <p-inputNumber name="quantity" formControlName="quantity" required></p-inputNumber>
+                        <small class="p-error block"
+                            *ngIf="settingItem.controls.quantity.invalid && (settingItem.controls.quantity.dirty || settingItem.controls.quantity.touched)">
+                            {{'QUANTITY_IS_REQUIRED'|translate}}
+                        </small>
+                    </div>
+                    <div class="p-field p-col-2">
+                        <label for="delete">&nbsp;</label>
+                        <p-dropdown [options]="measurementUnits[i]" inputId="measurementUnitId"
+                            placeholder="{{'MEASUREMENT_UNIT'|translate}}" formControlName="measurementUnitId"
+                            optionLabel="code" optionValue="id" required>
+                        </p-dropdown>
+                        <small class="p-error block"
+                            *ngIf="settingItem.controls.measurementUnitId.invalid && (settingItem.controls.measurementUnitId.dirty || ssettingItem.controls.measurementUnitId.touched)">
+                            {{'MEASUREMENT_UNIT_IS_REQUIRED'|translate}}
+                        </small>
+                    </div>
+                    <div class="p-field p-col-1">
+                        <label for="delete">&nbsp;</label>
+                        <button pButton pRipple icon="pi pi-trash" class="p-button p-button-warning"
+                            (click)="deleteInventory(i)"></button>
+                    </div>
+                </div>
+            </div>
+            <button pButton label="{{'ADD_INVENTORY' | translate}}" icon="pi pi-plus"
+                class="p-button-success p-mr-2 p-mb-2" (click)="addInventory()"></button>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CANCEL'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="close()"></button>
+        <button pButton pRipple label="{{'SAVE'|translate}}" icon="pi pi-check" class="p-button-text" (click)="save()"
+            [disabled]="!editForm.valid"></button>
+    </ng-template>
+</p-dialog>

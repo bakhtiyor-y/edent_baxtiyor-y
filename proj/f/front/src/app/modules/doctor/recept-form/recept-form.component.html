@@ -1,0 +1,188 @@
+<!--  -->
+<p-toast></p-toast>
+<div class="p-grid">
+    <div class="p-col">
+        <div class="p-grid">
+            <div class="p-col p-pb-0 p-mb-1">
+                <div class="card">
+                    <app-teeth-control #teethCtrl [teeth]="currentTeeth" [editMode]="true"
+                        (teethSelected)="onTeethSelected($event)"></app-teeth-control>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid p-fluid">
+            <div class="p-col p-pb-0 p-mb-1">
+                <div class="card">
+                    <h6 style="margin: 0px;">{{'PROVIDE_SERVICE'|translate}}</h6>
+                    <div class="p-field p-pb-0 p-mb-1">
+                        <p-autoComplete [group]="true" [suggestions]="filteredGroups" [(ngModel)]="selectedServices"
+                            placeholder="{{'SELECT_DENTAL_SERVICE'|translate}}"
+                            (completeMethod)="filterGroupedService($event, DentalServiceType.Treatment)" field="name"
+                            [multiple]="true" [dropdown]="true" [unique]="false">
+                            <ng-template let-group pTemplate="group">
+                                <div class="p-d-flex p-ai-center">
+                                    <div style="margin: 10px; font-weight: 700;">{{group.name}}</div>
+                                </div>
+                            </ng-template>
+                        </p-autoComplete>
+                    </div>
+                    <div class="p-field p-pb-0 p-mb-1">
+                        <p-autoComplete [suggestions]="diagnoses" [(ngModel)]="selectedDiagnose"
+                            placeholder="{{'SELECT_DIAGNOSE'|translate}}" (completeMethod)="filterDiagnose($event)"
+                            field="name" [multiple]="false" [dropdown]="true" [unique]="false">
+                        </p-autoComplete>
+                    </div>
+                    <div class="p-field">
+                        <label for="description"></label>
+                        <textarea rows="2" cols="30" [(ngModel)]="treatmentDescription"
+                            placeholder="{{'DESCRIPTION'|translate}}" pInputTextarea></textarea>
+                    </div>
+                    <div class="p-grid">
+                        <div class="p-col" style="padding-top: 0px; padding-bottom: 0px;"><button pButton
+                                label="{{'ADD_TO_PROVIDED'|translate}}" icon="pi pi-check" class="p-button-info"
+                                (click)="addToProvided()"
+                                [disabled]="selectedServices.length == 0 || selectedTeeth.length == 0"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col p-pb-0 p-mb-1">
+                <div class="card">
+                    <h6 style="margin-bottom: 5px;">{{'SELECTED_TOOTH_HISTORY'|translate}}</h6>
+                    <app-patient-tooth-history [height]="'16vh'" [maxHeight]="'16vh'"
+                        [patientTooth]="getSelectedTooth()">
+                    </app-patient-tooth-history>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-col">
+        <div class="p-grid">
+            <div class="p-col p-pb-0 p-mb-1">
+                <div class="card">
+                    <div class="p-fluid">
+                        <h6 style="margin: 0px;">{{'RECEPT_PATIENT'|translate}} :
+                            {{currentAppointment?.patientFullName}}</h6>
+                        <hr style="margin-top: 0px;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid p-fluid">
+            <div class="p-col p-pb-0 p-mb-1">
+                <div class="card">
+                    <h6 style="margin: 0px;">{{'PROVIDE_ADDITIONAL_SERVICE'|translate}}</h6>
+                    <hr style="margin-top: 0px;" />
+                    <div class="p-grid">
+                        <div class="p-field p-col-10 p-mb-0 p-pb-0">
+                            <p-autoComplete [group]="true" [suggestions]="filteredGroups"
+                                [(ngModel)]="selectedReceptServices" placeholder="{{'SELECT_DENTAL_SERVICE'|translate}}"
+                                (completeMethod)="filterGroupedService($event, DentalServiceType.Common)" field="name"
+                                [multiple]="true" [dropdown]="true" [unique]="false">
+                                <ng-template let-group pTemplate="group">
+                                    <div class="p-d-flex p-ai-center">
+                                        <div style="margin: 10px; font-weight: 700;">{{group.name}}</div>
+                                    </div>
+                                </ng-template>
+                            </p-autoComplete>
+                        </div>
+                        <div class="p-field p-col-1 p-mb-0 p-pb-0"><button pButton icon="pi pi-check"
+                                class="p-button-icon" (click)="addToAdditionalProvided()"
+                                [disabled]="selectedReceptServices.length == 0"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col p-pb-0 p-mb-1">
+                <div class="card">
+                    <h6 style="margin: 0px;">{{'PROVIDED_SERVICES'|translate}}</h6>
+                    <div style="max-height: 49vh; height: 49vh; overflow-y:auto; overflow-x: hidden;">
+                        <div class="p-fluid">
+                            <div *ngFor="let treatment of treatments; let i = index">
+                                <div class="p-grid p-pl-0 p-mt-0">
+                                    <div class="p-col p-mb-0 p-pb-1" style="padding-top: 25px;">
+                                        <span><strong>{{'TREATED_TOOTH'|translate}} :&nbsp;</strong></span>
+                                        <span class="box p-shadow-1"
+                                            style="margin: 1px; padding-left: 3px; padding-right: 3px;">{{treatment.patientTooth.tooth.name}}</span>
+                                    </div>
+                                    <div class="p-col p-mb-0 p-pb-1" style="padding-top: 25px;">
+                                        <ng-container *ngIf="treatment.diagnose">
+                                            <span><strong>{{'DIAGNOSE'|translate}}:&nbsp;</strong></span>
+                                            <span>{{treatment.diagnose?.name}} </span>
+                                        </ng-container>
+                                    </div>
+                                    <div class="p-col p-mb-0 p-pb-1" style="padding-top: 25px;">
+                                        <ng-container *ngIf="treatment.description">
+                                            <span><strong>{{'DESCRIPTION'|translate}}:&nbsp;</strong></span>
+                                            <span>{{treatment.description}} </span>
+                                        </ng-container>
+                                    </div>
+                                    <div class="p-col-1 p-mb-0 p-pb-1">
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button p-button-warning"
+                                            (click)="deleteService(i)"></button>
+                                    </div>
+                                </div>
+                                <hr style="margin-top: 0px;" />
+                                <div class="p-grid" *ngFor="let ts of treatment.treatmentDentalServices">
+                                    <label class="p-col p-mb-0 p-pb-1">{{ts.dentalService.name}}</label>
+                                    <label class="p-col p-mb-0 p-pb-1">{{ts.dentalService.currentPrice|number}}
+                                        {{'UZS'|translate}}</label>
+                                    <div class="p-col-1 p-mb-0 p-pb-1"></div>
+                                </div>
+                                <hr style="margin-top: 0px;" />
+                            </div>
+                            <div class="p-grid" *ngIf="providedReceptServices.length > 0">
+                                <div class="p-col p-mb-0 p-pb-1">
+                                    <h6 style="margin: 0px;">{{'PROVIDED_ADDITIONAL_SERVICES'|translate}}</h6>
+                                    <hr style="margin-top: 0px;" />
+                                </div>
+                            </div>
+                            <div *ngFor="let prs of providedReceptServices; let i = index" class="p-grid">
+                                <label class="p-col p-mb-0 p-pb-1">{{prs.dentalService.name}}</label>
+                                <label class="p-col p-mb-0 p-pb-1">{{prs.dentalService.currentPrice|number}}
+                                    {{'UZS'|translate}}</label>
+                                <div class="p-col-1 p-mb-0 p-pb-1">
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button p-button-warning"
+                                        (click)="deleteReceptService(i)"></button>
+                                </div>
+                                <hr style="margin-top: 0px;" />
+                            </div>
+                            <div>
+                                <div class="p-grid">
+                                    <label class="p-col"><strong>{{'TOTAL'|translate}}</strong></label>
+                                    <label class="p-col"><strong>{{getTotalSum()|number}}
+                                            {{'UZS'|translate}}</strong></label>
+                                    <div class="p-col-1"></div>
+                                </div>
+                            </div>
+                            <hr style="margin-top: 0px;" />
+                            <div class="p-field">
+                                <label for="description"></label>
+                                <textarea rows="5" cols="30" [(ngModel)]="receptDescription" pInputTextarea
+                                    placeholder="{{'RECEPT_DESCRIPTION'|translate}}"></textarea>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="p-grid p-fluid">
+                        <div class="p-col p-mb-0 p-pb-0">
+                            <button pButton pRipple label="{{'FINISH_AS_TREATMENT_PLAN' | translate}}"
+                                class="p-button-info p-mr-2 p-mb-2" (click)="finishReceptAsPlan()"
+                                [disabled]="treatments.length === 0"></button>
+                        </div>
+                        <div class="p-col p-mb-0 p-pb-0">
+                            <button pButton pRipple label="{{'FINISH_RECEPT' | translate}}"
+                                class="p-button-success p-mr-2 p-mb-2" (click)="finishRecept()"
+                                [disabled]="treatments.length === 0 && providedReceptServices.length === 0"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

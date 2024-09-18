@@ -1,0 +1,126 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <p-toast></p-toast>
+        <div class="card">
+            <div class="p-fluid">
+                <div class="p-formgrid p-grid">
+                    <div class="p-field p-col-4">
+                        <label>{{'FROM_DATE'|translate}} </label>
+                        <p-calendar [(ngModel)]="filter.from" dateFormat="dd.mm.yy" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="1930:2030" (onSelect)="onFromDateChange($event)">
+                        </p-calendar>
+                    </div>
+                    <div class="p-field p-col-4">
+                        <label>{{'TO_DATE'|translate}} </label>
+                        <p-calendar [(ngModel)]="filter.to" dateFormat="dd.mm.yy" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="1930:2030" (onSelect)="onToDateChange($event)">
+                        </p-calendar>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="p-fluid">
+                <div class="p-field"><strong>{{'TOTAL'|translate}}</strong></div>
+                <div class="p-formgrid p-grid">
+                    <div class="p-field p-col-3"><strong>{{'TOTAL_FACT_INCOME'|translate}}: {{model?.totalIncome|number}}
+                            {{'UZS'|translate}}</strong></div>
+                    <div class="p-field p-col-3"><strong>{{'TOTAL_DISCOUNT'|translate}}: {{model?.totalDiscount|number}}
+                            {{'UZS'|translate}}</strong></div>
+                    <div class="p-field p-col-3"><strong>{{'DOCTOR_OUTCOME'|translate}}:
+                            {{model?.totalDoctorOutcome|number}}
+                            {{'UZS'|translate}}</strong></div>
+
+                    <div class="p-field p-col-3"><strong>{{'TOTAL_CALCULATED'|translate}}: {{model?.totalCalculated|number}}
+                            {{'UZS'|translate}}</strong></div>
+
+                </div>
+                <div class="p-formgrid p-grid">
+
+
+                    <div class="p-field p-col-3"><strong>{{'TOTAL_TECHNIC_OUTCOME'|translate}}:
+                            {{model?.totalTechnicOutcome |
+                            number}}
+                            {{'UZS'|translate}}</strong></div>
+                    <div class="p-field p-col-3"><strong>{{'TOTAL_PARTNER_SHARE'|translate}}: {{model?.totalPartnerShare
+                            |
+                            number}}
+                            {{'UZS'|translate}}</strong></div>
+                    <div class="p-field p-col-3"><strong>{{'TOTAL_LEFT'|translate}}: {{model?.totalLeft |
+                            number}}
+                            {{'UZS'|translate}}</strong></div>
+                    <div class="p-field p-col-3"></div>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <p-table #incomeOutcomeReport [value]="model?.items" [scrollable]="true" [loading]="loading"
+                styleClass="p-datatable-sm" [rowHover]="true" dataKey="id" [style]="{width:'100%'}">
+                <ng-template pTemplate="caption">
+                    <div class="p-d-flex p-flex-column p-flex-md-row table-header">
+                        <h5 class="p-mr-5">{{ 'RECEPT_REPORT' | translate }}</h5>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 40px;">{{ 'ID' | translate }}
+                        </th>
+                        <th>{{ 'PATIENT' | translate }}
+                        </th>
+                        <th>{{ 'RECEPT_DATE' | translate }}
+                        </th>
+                        <th>{{ 'DISCOUNT' | translate }}
+                        </th>
+                        <th>{{ 'TECHNIC_OUTCOME' | translate }}
+                        </th>
+                        <th>{{ 'PARTNER_SHARE' | translate }}
+                        </th>
+                        <th>{{ 'TOTAL_INCOME' | translate }}
+                        </th>
+                        <th>{{ 'DOCTOR_OUTCOME' | translate }}
+                        </th>
+                        <th>{{ 'CALCULATED_SUMM' | translate }}
+                        </th>
+                        <th>{{ 'LEFT_SUMM' | translate }}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td style="width: 40px;">
+                            {{item.id}}
+                        </td>
+                        <td>
+                            {{item.patientName}}
+                        </td>
+                        <td>
+                            {{item.receptDate | localizedDate:'dd.MM.yyyy'}}
+                        </td>
+                        <td>
+                            {{item.discount | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.technicOutcome| number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.partnerShare| number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.totalIncome | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.doctorOutcome | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.calculated | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.left | number}} {{'UZS'|translate}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <p-confirmDialog [style]="{width: '600px'}"></p-confirmDialog>
+    </div>
+</div>

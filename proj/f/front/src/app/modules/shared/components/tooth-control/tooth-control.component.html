@@ -1,0 +1,7 @@
+<div class="img-with-text zoom-image" (click)="onToothSelect($event)" (contextmenu)="onToothDeselect($event)">
+    <label #toothText [style]="selected?'background-color: green; color: white;':''"
+        *ngIf="model.tooth?.direction === ToothDirection.BottomLeft || model.tooth?.direction === ToothDirection.BottomRight">{{model.tooth.name}}</label>
+    <img [src]="getToothImage(model)" height="60" data-child="2" [alt]="model.tooth?.name" />
+    <label #toothText [style]="selected?'background-color: green; color: white;':''"
+        *ngIf="model.tooth?.direction === ToothDirection.TopLeft || model.tooth?.direction === ToothDirection.TopRight">{{model.tooth.name}}</label>
+</div>

@@ -1,0 +1,254 @@
+[
+  {
+    "name": "Слюнявчики",
+    "stock": 5000,
+    "currentPrice": 1000,    
+    "mesurementUnitCode": "шт",
+    "inventoryPrices": [
+      {
+        "price": 1000,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Салфетки рулоновые",
+    "stock": 50,
+    "currentPrice": 5000,
+    "mesurementUnitCode": "шт",
+    "inventoryPrices": [
+      {
+        "price": 5000,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Салфетки обычные ",
+    "stock": 50000,
+    "currentPrice": 3000,
+    "mesurementUnitCode": "шт",
+    "inventoryPrices": [
+      {
+        "price": 3000,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Стаканчики",
+    "stock": 400,
+    "currentPrice": 500,
+    "mesurementUnitCode": "шт",
+    "inventoryPrices": [
+      {
+        "price": 500,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Маска",
+    "stock": 1500,
+    "currentPrice": 1100,
+    "mesurementUnitCode": "шт",
+    "inventoryPrices": [
+      {
+        "price": 1100,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Перчатка",
+    "stock": 2000,
+    "mesurementUnitCode": "шт",
+    "currentPrice": 1400,
+    "inventoryPrices": [
+      {
+        "price": 1400,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Спирт",
+    "stock": 100,
+    "currentPrice": 800,
+    "mesurementUnitCode": "л",
+    "inventoryPrices": [
+      {
+        "price": 800,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Гипохлор",
+    "stock": 100,
+    "currentPrice": 2000,
+    "mesurementUnitCode": "л",
+    "inventoryPrices": [
+      {
+        "price": 2000,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Вата",
+    "stock": 250,
+    "currentPrice": 1200,
+    "mesurementUnitCode": "г",
+    "inventoryPrices": [
+      {
+        "price": 1200,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Бинт томпон",
+    "stock": 500,
+    "currentPrice": 1300,
+    "mesurementUnitCode": "г",
+    "inventoryPrices": [
+      {
+        "price": 1300,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Слюнаотсос",
+    "stock": 5000,
+    "mesurementUnitCode": "шт",
+    "currentPrice": 200,
+    "inventoryPrices": [
+      {
+        "price": 200,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Крафт  пакет",
+    "stock": 200,
+    "currentPrice": 25000,
+    "mesurementUnitCode": "см",
+    "inventoryPrices": [
+      {
+        "price": 25000,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Пломбировочный материал",
+    "stock": 200,
+    "currentPrice": 50000,
+    "mesurementUnitCode": "г",
+    "inventoryPrices": [
+      {
+        "price": 50000,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Слепочный материал ",
+    "stock": 200,
+    "currentPrice": 44000,
+    "mesurementUnitCode": "г",
+    "inventoryPrices": [
+      {
+        "price": 44000,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Шовный материал",
+    "stock": 100,
+    "currentPrice": 30000,
+    "mesurementUnitCode": "шт",
+    "inventoryPrices": [
+      {
+        "price": 30000,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Скальпель",
+    "stock": 20,
+    "currentPrice": 25000,
+    "mesurementUnitCode": "шт",
+    "inventoryPrices": [
+      {
+        "price": 25000,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Хирургический халат",
+    "stock": 25,
+    "currentPrice": 45000,
+    "mesurementUnitCode": "шт",
+    "inventoryPrices": [
+      {
+        "price": 45000,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Бахила",
+    "stock": 5000,
+    "currentPrice": 600,
+    "mesurementUnitCode": "шт",
+    "inventoryPrices": [
+      {
+        "price": 600,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Дезинфицирующий раствор",
+    "stock": 5000,
+    "currentPrice": 20000,
+    "mesurementUnitCode": "г",
+    "inventoryPrices": [
+      {
+        "price": 20000,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Стерильные перчатки",
+    "stock": 500,
+    "currentPrice": 1800,
+    "mesurementUnitCode": "шт",
+    "inventoryPrices": [
+      {
+        "price": 1800,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  },
+  {
+    "name": "Хирургическая шапка",
+    "stock": 25,
+    "currentPrice": 13000,
+    "mesurementUnitCode": "шт",
+    "inventoryPrices": [
+      {
+        "price": 13000,
+        "datefrom": "2021-05-24 13:34:16"
+      }
+    ]
+  }
+]

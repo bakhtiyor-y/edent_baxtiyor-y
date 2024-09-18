@@ -1,0 +1,83 @@
+<p-dialog [(visible)]="isOpen" [style]="{width: '600px'}"
+    header="{{ model?.id===0 ? ('ADD'|translate):('EDIT'|translate) }}" [modal]="true" styleClass="p-fluid"
+    (onHide)="close()">
+    <ng-template pTemplate="content">
+        <form [formGroup]="editForm">
+            <div class="p-field">
+                <label for="userName">{{ 'USER_NAME' | translate }}</label>
+                <input type="text" pInputText id="userName" formControlName="userName" required autofocus />
+                <small class="p-error block"
+                    *ngIf="editForm.get('userName').invalid && (editForm.get('userName').dirty || editForm.get('userName').touched)">{{'USER_NAME_IS_REQUIRED'|translate}}</small>
+            </div>
+            <div class="p-formgrid p-grid">
+                <div class="p-field p-col-4">
+                    <label for="lastName">{{ 'LAST_NAME' | translate }}</label>
+                    <input type="text" pInputText id="lastName" formControlName="lastName" required />
+                    <small class="p-error block"
+                        *ngIf="editForm.get('lastName').invalid && (editForm.get('lastName').dirty || editForm.get('lastName').touched)">{{'LAST_NAME_IS_REQUIRED'|translate}}</small>
+                </div>
+                <div class="p-field p-col-4">
+                    <label for="firstName">{{ 'FIRST_NAME' | translate }}</label>
+                    <input type="text" pInputText id="firstName" formControlName="firstName" required />
+                    <small class="p-error block"
+                        *ngIf="editForm.get('firstName').invalid && (editForm.get('firstName').dirty || editForm.get('firstName').touched)">{{'FIRST_NAME_IS_REQUIRED'|translate}}</small>
+                </div>
+                <div class="p-field p-col-4">
+                    <label for="patronymic">{{ 'PATRONYMIC' | translate }}</label>
+                    <input type="text" pInputText id="patronymic" formControlName="patronymic" />
+                </div>
+            </div>
+            <div class="p-formgrid p-grid">
+                <div class="p-field p-col-4">
+                    <label for="birthDate">{{ 'BIRTH_DATE' | translate }}</label>
+                    <p-calendar formControlName="birthDate" dateFormat="dd.mm.yy" [monthNavigator]="true"
+                        [yearNavigator]="true" yearRange="1930:2030" required></p-calendar>
+                    <small class="p-error block"
+                        *ngIf="editForm.get('birthDate').invalid && (editForm.get('birthDate').dirty || editForm.get('birthDate').touched)">{{'BIRTH_DATE_IS_REQUIRED'|translate}}</small>
+                </div>
+                <div class="p-field  p-col-4">
+                    <label for="phoneNumber">{{ 'PHONE_NUMBER' | translate }}</label>
+                    <p-inputMask inputId="phoneNumber" formControlName="phoneNumber" mask="99 999 99 99" required>
+                    </p-inputMask>
+                    <small class="p-error block"
+                        *ngIf="editForm.get('phoneNumber').invalid && (editForm.get('phoneNumber').dirty || editForm.get('phoneNumber').touched)">{{'PHONE_NUMBER_IS_REQUIRED'|translate}}</small>
+                </div>
+                <div class="p-field  p-col-4">
+                    <label for="email">{{ 'EMAIL' | translate }}</label>
+                    <input type="email" pInputText id="email" [pKeyFilter]="emailRegex" formControlName="email"
+                        required />
+                    <small class="p-error block"
+                        *ngIf="editForm.get('email').invalid && (editForm.get('email').dirty || editForm.get('email').touched)">{{'EMAIL_IS_REQUIRED'|translate}}</small>
+                </div>
+            </div>
+            <div class="p-formgrid p-grid">
+                <div class="p-field p-col-4">
+                    <label for="gender">{{'GENDER'|translate}}</label>
+                    <p-dropdown [options]="genders" placeholder="{{'SELECT_GENDER'|translate }}" inputId="gender"
+                        formControlName="gender" optionLabel="text" optionValue="value" required>
+                    </p-dropdown>
+                </div>
+                <div class="p-field p-col-4">
+                    <h6>{{ 'IS_ACTIVE' | translate }}</h6>
+                    <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                </div>
+            </div>
+        </form>
+        <div class="p-field">
+            <label class="p-mb-3">{{ 'ROLES' | translate }}</label>
+            <div class="p-formgrid p-grid">
+                <div *ngFor="let role of roles" class="p-field-checkbox p-col-4">
+                    <p-checkbox name="userRoles" [(ngModel)]="model.roles" label="{{role.name}}" value="{{role.name}}">
+                    </p-checkbox>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CANCEL'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="close()"></button>
+        <button pButton pRipple label="{{'SAVE'|translate}}" icon="pi pi-check" class="p-button-text" (click)="save()"
+            [disabled]="!editForm.valid"></button>
+    </ng-template>
+</p-dialog>

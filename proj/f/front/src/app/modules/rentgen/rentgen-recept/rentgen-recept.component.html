@@ -1,0 +1,71 @@
+<p-dialog [(visible)]="isOpen" [style]="{width: '800px'}" header="{{'RECEPT'|translate}}" [modal]="true"
+    styleClass="p-fluid" (onHide)="close()">
+    <ng-template pTemplate="content">
+        <div class="p-grid">
+            <div class="p-col">
+                <div class="card">
+                    <h5 style="margin: 0px;">{{'PATIENT'|translate}}: {{appointment?.patientFullName}}</h5>
+                    <hr style="margin-top: 0px; margin-bottom: 5px;" />
+                    <h5 style="margin: 0px;">{{'PROVIDE_SERVICE'|translate}}</h5>
+                    <hr style="margin-top: 0px; margin-bottom: 5px;" />
+                    <div class="p-fluid p-grid">
+                        <div class="p-field p-col-6">
+                            <p-autoComplete [group]="true" [suggestions]="filteredGroups" [(ngModel)]="selectedServices"
+                                placeholder="{{'SELECT_DENTAL_SERVICE'|translate}}"
+                                (completeMethod)="filterGroupedService($event)" field="name" [multiple]="true"
+                                [dropdown]="true" [unique]="false">
+                                <ng-template let-group pTemplate="group">
+                                    <div class="p-d-flex p-ai-center">
+                                        <div style="margin: 10px; font-weight: 700;">{{group.name}}</div>
+                                    </div>
+                                </ng-template>
+                            </p-autoComplete>
+                        </div>
+                        <div class="p-field p-col-1"><button pButton icon="pi pi-check" class="p-button-icon"
+                                (click)="addToProvided()" [disabled]="selectedServices.length == 0"></button>
+                        </div>
+                    </div>
+                    <h5 style="margin: 0px; margin-bottom: 5px;">{{'PROVIDED_SERVICES'|translate}}</h5>
+                    <hr *ngIf="providedServices.length > 0" style="margin-top: 0px;" />
+                    <div class="p-fluid">
+                        <div *ngFor="let prs of providedServices; let i = index">
+                            <div class="p-grid">
+                                <label class="p-col">{{prs.dentalService.name}}</label>
+                                <label class="p-col">{{prs.dentalService.currentPrice|number}}
+                                    {{'UZS'|translate}}</label>
+                                <div class="p-col-1">
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button p-button-warning"
+                                        (click)="deleteReceptService(i)"></button>
+                                </div>
+                            </div>
+                        </div>
+                        <hr style="margin-top: 0px;" />
+                        <div class="p-grid">
+                            <label class="p-col"><strong>{{'TOTAL_SUM'|translate}}</strong></label>
+                            <label class="p-col"><strong>{{getTotalSum()|number}}
+                                    {{'UZS'|translate}}</strong></label>
+                            <div class="p-col-1"></div>
+                        </div>
+                        <hr style="margin-top: 0px;" />
+                        <div class="p-grid">
+                            <div class="p-field p-col">
+                                <label for="description"></label>
+                                <textarea rows="5" cols="30" [(ngModel)]="receptDescription" pInputTextarea
+                                    placeholder="{{'RECEPT_DESCRIPTION'|translate}}"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CANCEL_APPOINTMENT'|translate}}" icon="pi pi-trash"
+            class="p-button-text p-button-danger" (click)="cancelAppointment()"></button>
+        <button pButton pRipple label="{{'CLOSE'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="close()"></button>
+        <button pButton pRipple label="{{'SAVE'|translate}}" icon="pi pi-check" class="p-button-text p-button-success"
+            (click)="save()" [disabled]="providedServices.length === 0"></button>
+    </ng-template>
+</p-dialog>

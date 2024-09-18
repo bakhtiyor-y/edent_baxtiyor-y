@@ -1,0 +1,77 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <p-toast></p-toast>
+        <div class="card">
+            <div class="p-fluid">
+                <div class="p-formgrid p-grid">
+                    <div class="p-filed p-col">
+                    </div>
+                    <div class="p-filed p-mr-1">
+                        <p-button icon="pi pi-chevron-left" (click)="onPrevDate()"></p-button>
+                    </div>
+                    <div class="p-filed">
+                        <p-calendar [(ngModel)]="selectedDate" dateFormat="dd.mm.yy" [monthNavigator]="true"
+                            (onSelect)="onDateSelect($event)"></p-calendar>
+                    </div>
+                    <div class="p-filed p-ml-1">
+                        <p-button icon="pi pi-chevron-right" (click)="onNextDate()"></p-button>
+                    </div>
+                    <div class="p-filed p-col">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-grid">
+            <div class="p-col">
+                <div class="card">
+                    <p-table [value]="items" styleClass="p-datatable-sm p-datatable-gridlines" [scrollable]="true"
+                        scrollHeight="57vh" [style]="{'max-width':'82vw'}">
+                        <ng-template pTemplate="caption">
+                            <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+                                <h5 class="p-m-0">{{ 'SCHEDULE' | translate }}</h5>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 75px; max-width: 75px;">{{'STARTING'|translate }}</th>
+                                <th style="width: 200px; min-width: 200px;"
+                                    *ngFor="let employee of employees; let i=index">
+                                    {{employee.fullName}}
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-index="rowIndex">
+                            <tr>
+                                <td style="width: 75px; max-width: 75px;">
+                                    {{ item.time }}
+                                </td>
+                                <ng-container *ngFor="let employee of employees; let ind=index">
+                                    <td style="width: 200px; min-width: 200px;">
+                                        <ng-container
+                                            *ngTemplateOutlet="tmpl; context: {$implicit: findEvent(item, employee), employee: employee, item: item}">
+                                        </ng-container>
+                                        <ng-template #tmpl let-appointment let-employee="employee" let-item="item">
+                                            <button *ngIf="appointment" pButton type="button"
+                                                class="p-button-text p-button-sm" label="{{appointment.patientFullName}}"
+                                                (click)="editAppointment(appointment.id)"></button>
+                                            <button *ngIf="!appointment" pButton type="button" icon="pi pi-plus"
+                                                label="{{'APPOINT'|translate}}"
+                                                class="p-button-success p-button-text p-button-sm"
+                                                (click)="appointPatient(employee, item)"></button>
+                                        </ng-template>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-appoint-patient-to-rentgen [isOpen]="appointDialog" [employee]="selectedEmployee"
+    [selectedAppointmentDate]="selectedAppointmentTime" (closed)="onAppointmentClosed()" (appointed)="onAppointed()">
+</app-appoint-patient-to-rentgen>
+
+<!-- <app-edit-appointment [isOpen]="editDialog" [model]="selectedAppointment" (saved)="onEdit($event)"
+    (closed)="onEditClose()" (appointmentCancelled)="onAppointmentCancelled()"></app-edit-appointment> -->

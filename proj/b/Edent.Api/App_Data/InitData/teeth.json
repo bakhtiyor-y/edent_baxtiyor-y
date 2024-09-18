@@ -1,0 +1,314 @@
+[
+  {
+    "name": "1",
+    "position": 1,
+    "direction": 1,
+    "toothType": 0
+  },
+  {
+    "name": "2",
+    "position": 2,
+    "direction": 1,
+    "toothType": 0
+  },
+  {
+    "name": "3",
+    "position": 3,
+    "direction": 1,
+    "toothType": 0
+  },
+  {
+    "name": "4",
+    "position": 4,
+    "direction": 1,
+    "toothType": 0
+  },
+  {
+    "name": "5",
+    "position": 5,
+    "direction": 1,
+    "toothType": 0
+  },
+  {
+    "name": "6",
+    "position": 6,
+    "direction": 1,
+    "toothType": 0
+  },
+  {
+    "name": "7",
+    "position": 7,
+    "direction": 1,
+    "toothType": 0
+  },
+  {
+    "name": "8",
+    "position": 8,
+    "direction": 1,
+    "toothType": 0
+  },
+  {
+    "name": "1",
+    "position": 1,
+    "direction": 2,
+    "toothType": 0
+  },
+  {
+    "name": "2",
+    "position": 2,
+    "direction": 2,
+    "toothType": 0
+  },
+  {
+    "name": "3",
+    "position": 3,
+    "direction": 2,
+    "toothType": 0
+  },
+  {
+    "name": "4",
+    "position": 4,
+    "direction": 2,
+    "toothType": 0
+  },
+  {
+    "name": "5",
+    "position": 5,
+    "direction": 2,
+    "toothType": 0
+  },
+  {
+    "name": "6",
+    "position": 6,
+    "direction": 2,
+    "toothType": 0
+  },
+  {
+    "name": "7",
+    "position": 7,
+    "direction": 2,
+    "toothType": 0
+  },
+  {
+    "name": "8",
+    "position": 8,
+    "direction": 2,
+    "toothType": 0
+  },
+  {
+    "name": "1",
+    "position": 1,
+    "direction": 3,
+    "toothType": 0
+  },
+  {
+    "name": "2",
+    "position": 2,
+    "direction": 3,
+    "toothType": 0
+  },
+  {
+    "name": "3",
+    "position": 3,
+    "direction": 3,
+    "toothType": 0
+  },
+  {
+    "name": "4",
+    "position": 4,
+    "direction": 3,
+    "toothType": 0
+  },
+  {
+    "name": "5",
+    "position": 5,
+    "direction": 3,
+    "toothType": 0
+  },
+  {
+    "name": "6",
+    "position": 6,
+    "direction": 3,
+    "toothType": 0
+  },
+  {
+    "name": "7",
+    "position": 7,
+    "direction": 3,
+    "toothType": 0
+  },
+  {
+    "name": "8",
+    "position": 8,
+    "direction": 3,
+    "toothType": 0
+  },
+  {
+    "name": "1",
+    "position": 1,
+    "direction": 4,
+    "toothType": 0
+  },
+  {
+    "name": "2",
+    "position": 2,
+    "direction": 4,
+    "toothType": 0
+  },
+  {
+    "name": "3",
+    "position": 3,
+    "direction": 4,
+    "toothType": 0
+  },
+  {
+    "name": "4",
+    "position": 4,
+    "direction": 4,
+    "toothType": 0
+  },
+  {
+    "name": "5",
+    "position": 5,
+    "direction": 4,
+    "toothType": 0
+  },
+  {
+    "name": "6",
+    "position": 6,
+    "direction": 4,
+    "toothType": 0
+  },
+  {
+    "name": "7",
+    "position": 7,
+    "direction": 4,
+    "toothType": 0
+  },
+  {
+    "name": "8",
+    "position": 8,
+    "direction": 4,
+    "toothType": 0
+  },
+  {
+    "name": "1",
+    "position": 1,
+    "direction": 1,
+    "toothType": 1
+  },
+  {
+    "name": "2",
+    "position": 2,
+    "direction": 1,
+    "toothType": 1
+  },
+  {
+    "name": "3",
+    "position": 3,
+    "direction": 1,
+    "toothType": 1
+  },
+  {
+    "name": "4",
+    "position": 4,
+    "direction": 1,
+    "toothType": 1
+  },
+  {
+    "name": "5",
+    "position": 5,
+    "direction": 1,
+    "toothType": 1
+  },
+  {
+    "name": "1",
+    "position": 1,
+    "direction": 2,
+    "toothType": 1
+  },
+  {
+    "name": "2",
+    "position": 2,
+    "direction": 2,
+    "toothType": 1
+  },
+  {
+    "name": "3",
+    "position": 3,
+    "direction": 2,
+    "toothType": 1
+  },
+  {
+    "name": "4",
+    "position": 4,
+    "direction": 2,
+    "toothType": 1
+  },
+  {
+    "name": "5",
+    "position": 5,
+    "direction": 2,
+    "toothType": 1
+  },
+  {
+    "name": "1",
+    "position": 1,
+    "direction": 3,
+    "toothType": 1
+  },
+  {
+    "name": "2",
+    "position": 2,
+    "direction": 3,
+    "toothType": 1
+  },
+  {
+    "name": "3",
+    "position": 3,
+    "direction": 3,
+    "toothType": 1
+  },
+  {
+    "name": "4",
+    "position": 4,
+    "direction": 3,
+    "toothType": 1
+  },
+  {
+    "name": "5",
+    "position": 5,
+    "direction": 3,
+    "toothType": 1
+  },
+  {
+    "name": "1",
+    "position": 1,
+    "direction": 4,
+    "toothType": 1
+  },
+  {
+    "name": "2",
+    "position": 2,
+    "direction": 4,
+    "toothType": 1
+  },
+  {
+    "name": "3",
+    "position": 3,
+    "direction": 4,
+    "toothType": 1
+  },
+  {
+    "name": "4",
+    "position": 4,
+    "direction": 4,
+    "toothType": 1
+  },
+  {
+    "name": "5",
+    "position": 5,
+    "direction": 4,
+    "toothType": 1
+  }
+]

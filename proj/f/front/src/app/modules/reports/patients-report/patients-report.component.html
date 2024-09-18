@@ -1,0 +1,69 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <p-toast></p-toast>
+        <div class="card">
+            <p-table #dtPatients [value]="items" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20]"
+                [lazy]="true" (onLazyLoad)="loadItems($event)" [totalRecords]="totalRecords" [loading]="loading"
+                styleClass="p-datatable-sm" (onPage)="onPageChange($event)" [rowHover]="true" dataKey="id"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+                    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+                        <h5 class="p-m-0">{{ 'PATIENTS_REPORT' | translate }}</h5>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onSearch($event.target.value)"
+                                placeholder="{{'SEARCH' | translate}}" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{ 'FULL_NAME' | translate }}
+                        </th>
+                        <th>{{ 'BIRTH_DATE' | translate }}
+                        </th>
+                        <th>{{ 'PHONE_NUMBER' | translate }}
+                        </th>
+                        <th>{{ 'EMAIL' | translate }}
+                        </th>
+                        <th>{{ 'BALANCE' | translate }}
+                        </th>
+                        <th>{{ 'DEBT' | translate }}
+                        </th>
+                        <th>{{ 'ACTIONS' | translate }}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            {{item.fullName}}
+                        </td>
+                        <td>
+                            {{ item.birthDate | localizedDate:'dd.MM.yyyy' }}
+                        </td>
+                        <td>
+                            {{item.phoneNumber}}
+                        </td>
+                        <td>
+                            {{item.email}}
+                        </td>
+                        <td>
+                            {{item.balance}}
+                        </td>
+                        <td>
+                            {{item.debt | number}}  {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-success p-mr-2"
+                                (click)="viewInvoices(item)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <app-patient-invoices [isOpen]="viewInvoiceDialog" [patientId]="selectedPatient?.id" (closed)="onViewInvoiceClosed()" ></app-patient-invoices>
+        <p-confirmDialog [style]="{width: '600px'}"></p-confirmDialog>
+    </div>
+</div>
+

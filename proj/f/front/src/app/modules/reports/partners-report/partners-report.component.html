@@ -1,0 +1,173 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <p-toast></p-toast>
+        <div class="card">
+            <div class="p-fluid">
+                <div class="p-formgrid p-grid">
+                    <div class="p-field p-col-4">
+                        <label>{{'FROM'|translate}} </label>
+                        <p-calendar [(ngModel)]="filter.from" dateFormat="dd.mm.yy" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="1930:2030" (onSelect)="onFromDateChange($event)">
+                        </p-calendar>
+                    </div>
+                    <div class="p-field p-col-4">
+                        <label>{{'TO'|translate}} </label>
+                        <p-calendar [(ngModel)]="filter.to" dateFormat="dd.mm.yy" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="1930:2030" (onSelect)="onToDateChange($event)">
+                        </p-calendar>
+                    </div>
+                </div>
+            </div>
+            <p-table #doctorsReport [value]="model?.items" [loading]="loading" styleClass="p-datatable-sm"
+                [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="p-d-flex p-flex-column p-flex-md-row table-header">
+                        <h5 class="p-mr-5">{{ 'PARTNERS_REPORT' | translate }}</h5>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{ 'ID' | translate }}
+                        </th>
+                        <th>{{ 'PARTNER' | translate }}
+                        </th>
+                        <th>{{ 'INCOME_SUMM' | translate }}
+                        </th>
+                        <th>{{ 'PARTNER_SUMM' | translate }}
+                        </th>
+                        <th>{{ 'CALCULATED_SUMM' | translate }}
+                        </th>
+                        <th>{{ 'LEFT_SUMM' | translate }}
+                        </th>
+                        <th>{{ 'ACTIONS' | translate }}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            {{item.id}}
+                        </td>
+                        <td>
+                            {{item.partnerName}}
+                        </td>
+                        <td>
+                            {{item.incomeSumm | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.partnerSumm | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.calculatedSumm | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.leftSumm | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-th-large"
+                                class="p-button-rounded p-button-success p-mr-1" (click)="viewDetails(item)"
+                                pTooltip="Детали"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <p-confirmDialog [style]="{width: '600px'}"></p-confirmDialog>
+    </div>
+</div>
+
+<p-dialog #receptDialog [(visible)]="viewDialog" [style]="{width: '1280px'}" header="{{ 'RECEPT' | translate }}"
+    [modal]="true" styleClass="p-fluid" (onHide)="close()">
+    <div class="card">
+        <p-table #dtRecepts [value]="receptReport?.items" styleClass="p-datatable-sm" [rowHover]="true" dataKey="id"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [showCurrentPageReport]="true">
+            <ng-template pTemplate="caption">
+                <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+                    <h5 class="p-m-0">{{ 'RECEPTS' | translate }}</h5>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="width: 80px;">{{ 'ID' | translate }}
+                    </th>
+                    <th>{{ 'DOCTOR' | translate }}
+                    </th>
+                    <th>{{ 'PATIENT' | translate }}
+                    </th>
+                    <th>{{ 'RECEPT_DATE' | translate }}
+                    </th>
+                    <th>{{ 'CLINIC_INCOME' | translate }}
+                    </th>
+                    <th>{{ 'DISCOUNT' | translate }}
+                    </th>
+                    <th>{{ 'TOTAL_FACT_INCOME' | translate }}
+                    </th>
+                    <th>{{ 'CLINIC_OUTCOME' | translate }}
+                    </th>
+                    <th>{{ 'PARTNER_SHARE' | translate }}
+                    </th>
+                    <th>{{ 'PROFIT' | translate }}
+                    </th>
+                    <th style="width: 140px;">{{ 'ACTIONS' | translate }}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-item>
+                <tr>
+                    <td style="width: 80px;">
+                        <button pButton class="p-button-sm p-button-secondary" label="{{item.id}}"
+                            (click)="openRecept(item.id)"></button>
+                    </td>
+                    <td>
+                        {{item.doctorName}}
+                    </td>
+                    <td>
+                        {{item.patientName}}
+                    </td>
+                    <td>
+                        {{item.receptDate | localizedDate:'dd.MM.yyyy'}}
+                    </td>
+                    <td>
+                        {{item.clinicIncome | number}} {{'UZS'|translate}}
+                    </td>
+                    <td>
+                        {{item.discount | number}} {{'UZS'|translate}}
+                    </td>
+                    <td>
+                        {{item.totalIncome | number}} {{'UZS'|translate}}
+                    </td>
+                    <td>
+                        {{item.clinicOutcome | number}} {{'UZS'|translate}}
+                    </td>
+                    <td>
+                        {{item.partnerShare| number}} {{'UZS'|translate}}
+                    </td>
+                    <td>
+                        {{item.profit| number}} {{'UZS'|translate}}
+                    </td>
+                    <td style="width: 140px;">
+                        <button pButton pRipple icon="pi pi-check-square"
+                            class="p-button-rounded p-button-success p-mr-2"
+                            pTooltip="{{'CALCULATE_WITH_PARTNER'|translate}}" (click)="calculatedWithPartner(item)"
+                            [disabled]="item.isPartnerCalculated"></button>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CLOSE'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="close()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog #receptDialog [(visible)]="viewReceptDialog" [style]="{width: '1080px'}" header="{{ 'RECEPT' | translate }}"
+    [modal]="true" styleClass="p-fluid" (onHide)="closeRecept()">
+    <app-view-recept [model]="receptItem">
+
+    </app-view-recept>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CLOSE'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="closeRecept()"></button>
+    </ng-template>
+</p-dialog>

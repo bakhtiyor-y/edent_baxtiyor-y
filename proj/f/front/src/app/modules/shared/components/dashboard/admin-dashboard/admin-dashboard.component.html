@@ -1,0 +1,148 @@
+<div class="p-grid">
+    <div class="p-col">
+        <div class="card">
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <h6>{{'REPORT_RECEPT_COUNT'|translate}}</h6>
+                    <h2>{{receptCount|number}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-col">
+        <div class="card">
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <h6>{{'REPORT_NEW_PATIENT_COUNT'|translate}}</h6>
+                    <h2>{{newPatientCount|number}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-col">
+        <div class="card">
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <h6>{{'REPORT_DENTAL_SERVICE_COUNT'|translate}}</h6>
+                    <h2>{{dentalServiceCount|number}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-col">
+        <div class="card">
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <h6>{{'REPORT_TOTAL_INCOME'|translate}}</h6>
+                    <h2>{{income|number:'0.0-2'}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-col">
+        <div class="card">
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <h6>{{'REPORT_TOTAL_PROFIT'|translate}}</h6>
+                    <h2>{{profit|number:'0.0-2'}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="p-fluid">
+    <div class="card">
+        <div class="p-formgrid p-grid">
+            <div class="p-field p-col-3">
+                <label>{{'FROM'|translate}} </label>
+                <p-calendar [(ngModel)]="filter.from" dateFormat="dd.mm.yy" [monthNavigator]="true"
+                    [yearNavigator]="true" yearRange="1930:2030" (onSelect)="onFromDateChange($event)">
+                </p-calendar>
+            </div>
+            <div class="p-field p-col-3">
+                <label>{{'TO'|translate}} </label>
+                <p-calendar [(ngModel)]="filter.to" dateFormat="dd.mm.yy" [monthNavigator]="true" [yearNavigator]="true"
+                    yearRange="1930:2030" (onSelect)="onToDateChange($event)">
+                </p-calendar>
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<div class="p-grid">
+    <div class="p-col-6">
+        <div class="card">
+            <div class="p-grid">
+                <div class="p-col p-pb-1 p-mb-0">
+                    <h6>{{'REPORT_RECEPT_DIAGRAM'|translate}}</h6>
+                </div>
+                <div class="col-fixed p-pb-1 p-mb-0" style="width:160px; padding: 1em;">
+                    <button pButton label="{{'DETAILS'|translate}}" routerLink="/dashboard/reports/recept-report"
+                        class="p-button-sm p-button-secondary"></button>
+                </div>
+            </div>
+            <p-chart type="line" [data]="receptCharData"></p-chart>
+        </div>
+    </div>
+    <div class="p-col-6">
+        <div class="card">
+            <div class="p-grid">
+                <div class="p-col p-pb-1 p-mb-0">
+                    <h6>{{'REPORT_DOCTORS_DIAGRAM'|translate}}</h6>
+                </div>
+                <div class="col-fixed p-pb-1 p-mb-0" style="width:160px; padding: 1em;">
+                    <button pButton label="{{'DETAILS'|translate}}" routerLink="/dashboard/reports/doctors-report"
+                        class="p-button-sm p-button-secondary"></button>
+                </div>
+            </div>
+
+            <p-chart type="bar" [data]="doctorCharData"></p-chart>
+        </div>
+    </div>
+</div>
+<div class="p-grid">
+    <div class="p-col-4">
+        <div class="card">
+            <div class="p-grid">
+                <div class="p-col p-pb-1 p-mb-0">
+                    <h6>{{'REPORT_PARTNER_DIAGRAM'|translate}}</h6>
+                </div>
+                <div class="col-fixed p-pb-1 p-mb-0" style="width:160px; padding: 1em;">
+                    <button pButton label="{{'DETAILS'|translate}}" routerLink="/dashboard/reports/partners-report"
+                        class="p-button-sm p-button-secondary"></button>
+                </div>
+            </div>
+
+            <p-chart type="line" [data]="partnerCharData"></p-chart>
+        </div>
+    </div>
+    <div class="p-col-4">
+        <div class="card">
+            <div class="p-grid">
+                <div class="p-col p-pb-1 p-mb-0">
+                    <h6>{{'REPORT_PATIENT_DIAGRAM'|translate}}</h6>
+                </div>
+                <div class="col-fixed p-pb-1 p-mb-0" style="width:160px; padding: 1em;">
+                    <button pButton label="{{'DETAILS'|translate}}" routerLink="/dashboard/reports/patients-report"
+                        class="p-button-sm p-button-secondary"></button>
+                </div>
+            </div>
+            <p-chart type="pie" [data]="patientChartData"></p-chart>
+        </div>
+    </div>
+    <div class="p-col-4">
+        <div class="card">
+            <div class="p-grid">
+                <div class="p-col p-pb-1 p-mb-0">
+                    <h6>{{'REPORT_DENTAL_SERVICE_DIAGRAM'|translate}}</h6>
+                </div>
+                <div class="col-fixed p-pb-1 p-mb-0" style="width:160px; padding: 1em;">
+                    <button pButton label="{{'DETAILS'|translate}}"
+                        routerLink="/dashboard/reports/dental-service-report"
+                        class="p-button-sm p-button-secondary"></button>
+                </div>
+            </div>
+            <p-chart type="doughnut" [data]="dentalServiceChartData"></p-chart>
+        </div>
+    </div>
+</div>

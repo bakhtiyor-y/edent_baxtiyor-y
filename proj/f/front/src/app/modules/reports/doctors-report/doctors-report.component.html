@@ -1,0 +1,75 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <p-toast></p-toast>
+        <div class="card">
+            <div class="p-fluid">
+                <div class="p-formgrid p-grid">
+                    <div class="p-field p-col-4">
+                        <label>{{'FROM'|translate}} </label>
+                        <p-calendar [(ngModel)]="filter.from" dateFormat="dd.mm.yy" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="1930:2030" (onSelect)="onFromDateChange($event)">
+                        </p-calendar>
+                    </div>
+                    <div class="p-field p-col-4">
+                        <label>{{'TO'|translate}} </label>
+                        <p-calendar [(ngModel)]="filter.to" dateFormat="dd.mm.yy" [monthNavigator]="true"
+                            [yearNavigator]="true" yearRange="1930:2030" (onSelect)="onToDateChange($event)">
+                        </p-calendar>
+                    </div>
+                </div>
+            </div>
+            <p-table #doctorsReport [value]="model?.items" [loading]="loading" styleClass="p-datatable-sm"
+                [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="p-d-flex p-flex-column p-flex-md-row table-header">
+                        <h5 class="p-mr-5">{{ 'DOCTORS_REPORT' | translate }}</h5>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{ 'ID' | translate }}
+                        </th>
+                        <th>{{ 'DOCTOR' | translate }}
+                        </th>
+                        <th>{{ 'RECEPT_COUNT' | translate }}
+                        </th>
+                        <th>{{ 'TOTAL_INCOME' | translate }}
+                        </th>
+                        <th>{{ 'FEE' | translate }}
+                        </th>
+                        <th>{{ 'CALCULATED_SUMM' | translate }}
+                        </th>
+                        <th>{{ 'LEFT_SUMM' | translate }}
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            {{item.id}}
+                        </td>
+                        <td>
+                            {{item.fullName}}
+                        </td>
+                        <td>
+                            {{item.receptCount}}
+                        </td>
+                        <td>
+                            {{item.clinicIncome | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.fee | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.calculatedSumm | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.leftSumm | number}} {{'UZS'|translate}}
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <p-confirmDialog [style]="{width: '600px'}"></p-confirmDialog>
+    </div>
+</div>

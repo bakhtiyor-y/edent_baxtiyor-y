@@ -1,0 +1,30 @@
+image: atlassian/default-image:4
+
+pipelines:
+  branches:
+    main:
+      - step:
+          name: Build
+          script:
+            - DOCKERFILE_PATH=Edent.Api/Dockerfile
+            - IMAGE_NAME=${DEVHUB_REGISTRY}/edent-api
+            - VERSION="0.1.${BITBUCKET_BUILD_NUMBER}"
+            - docker build -f $DOCKERFILE_PATH -t ${IMAGE_NAME}:latest -t ${IMAGE_NAME}:${VERSION} .
+            - echo ${DEVHUB_REGISTRY_PASSWORD} | docker login --username $DEVHUB_REGISTRY_USERNAME --password-stdin $DEVHUB_REGISTRY
+            - docker push -a ${IMAGE_NAME}
+          services:
+            - docker
+
+
+      - step:
+          name: Deploy
+          deployment: test
+          script:
+            - STACKFILE_PATH=swarm/test/stack.yml
+            - export DOCKER_HOST=${DOCKER_HOST_INIT}
+            - export APPLICATION_VERSION="0.1.${BITBUCKET_BUILD_NUMBER}"
+            - docker info
+            - echo ${DEVHUB_REGISTRY_PASSWORD} | docker login --username $DEVHUB_REGISTRY_USERNAME --password-stdin $DEVHUB_REGISTRY
+            - docker stack deploy -c ${STACKFILE_PATH} edent --with-registry-auth --resolve-image always
+          services:
+            - docker

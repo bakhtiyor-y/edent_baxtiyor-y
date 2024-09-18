@@ -1,0 +1,89 @@
+<p-dialog [(visible)]="isOpen" [style]="{width: '800px'}" header="{{ 'SPECIALIZATIONS' | translate }}" [modal]="true"
+    (onHide)="close()">
+    <ng-template pTemplate="content">
+        <div class="p-grid">
+            <div class="p-col-12">
+                <div class="card">
+                    <p-toolbar styleClass="p-mb-4">
+                        <ng-template pTemplate="left">
+                            <button pButton pRipple label="{{'ADD_NEW' | translate}}" icon="pi pi-user-plus"
+                                class="p-button-success p-mr-2 p-mb-2" pAddRow [table]="dtSpecialization"
+                                [newRow]="add()"></button>
+                            <button pButton pRipple label="{{'DELETE_SELECTED' | translate}}" icon="pi pi-trash"
+                                class="p-button-danger p-mb-2" (click)="deleteSelected()"
+                                [disabled]="!selectedItems || !selectedItems.length"></button>
+                        </ng-template>
+                    </p-toolbar>
+
+                    <p-table #dtSpecialization [value]="items" [rows]="10" [paginator]="true"
+                        [rowsPerPageOptions]="[10,20]" [lazy]="true" (onLazyLoad)="loadData($event)"
+                        [totalRecords]="totalRecords" [loading]="loading" styleClass="p-datatable-sm"
+                        (onPage)="onPageChange($event)" [(selection)]="selectedItems" [rowHover]="true" dataKey="id"
+                        сurrentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                        [showCurrentPageReport]="true" editMode="row">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 3rem">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+                                <th pSortableColumn="name">{{ 'NAME' | translate }} <p-sortIcon field="name">
+                                    </p-sortIcon>
+                                </th>
+                                <th pSortableColumn="description">{{ 'DESCRIPTION' | translate }} <p-sortIcon
+                                        field="code">
+                                    </p-sortIcon>
+                                </th>
+                                <th>{{ 'ACTIONS' | translate }}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-item let-editing="editing" let-ri="rowIndex">
+                            <tr [pEditableRow]="item">
+                                <td>
+                                    <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                                </td>
+                                <td>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input pInputText type="text" [(ngModel)]="item.name">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{item.name}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input pInputText type="text" [(ngModel)]="item.description">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            {{item.description}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td>
+                                    <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-pencil"
+                                        pInitEditableRow class="p-button-rounded p-button-success p-mr-2"
+                                        (click)="edit(item)" pTooltip="{{'EDIT'|translate}}"></button>
+                                    <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-trash"
+                                        class="p-button-rounded p-button-warning" (click)="delete(item)" pTooltip="{{'DELETE'|translate}}"></button>
+
+                                    <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow
+                                        icon="pi pi-check" (click)="onEdit(item)"
+                                        class="p-button-rounded p-button-text p-button-success p-mr-2" pTooltip="{{'SAVE'|translate}}"></button>
+                                    <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow
+                                        icon="pi pi-times" (click)="onEditCancel(item, ri)"
+                                        class="p-button-rounded p-button-text p-button-danger" pTooltip="{{'CANCEL'|translate}}"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CLOSE'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="close()"></button>
+    </ng-template>
+</p-dialog>

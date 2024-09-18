@@ -1,0 +1,55 @@
+<div class="layout-topbar">
+    <div class="topbar-left">
+        <a tabindex="0" class="menu-button" (click)="appMain.onMenuButtonClick($event)">
+            <i class="pi pi-chevron-left"></i>
+        </a>
+        <span class="topbar-separator"></span>
+        <ng-template ngFor let-item let-last="last" [ngForOf]="items">
+            <span class="viewname" style="text-transform: uppercase">{{item.label}}</span>
+        </ng-template>
+        <img id="logo-mobile" class="mobile-logo"
+            [src]="'assets/layout/images/logo-'+ (app.colorScheme === 'light' ? 'dark' : 'white') + '.svg'"
+            alt="diamond-layout" />
+    </div>
+
+    <div class="topbar-right">
+        <ul class="topbar-menu">
+            <li class="search-item">
+                <a tabindex="0" (click)="viewPrice()">
+                    <i class="pi pi-dollar"></i>
+                </a>
+            </li>
+            <li class="search-item">
+                <a tabindex="0" (click)="appMain.onSearchClick($event)">
+                    <i class="pi pi-search"></i>
+                </a>
+            </li>
+
+            <li class="profile-item" [ngClass]="{'active-menuitem fadeInDown': appMain.topbarUserMenuActive}">
+                <button pButton pRipple class="p-button-raised p-button-secondary"
+                    (click)="appMain.onTopbarUserMenuButtonClick($event)" label="{{currentUser?.fullName}}">
+                    <!-- <img src="{{currentUser?.profileImage}}" alt="diamond-layout" class="profile-image" /> -->
+                    <!-- <span class="profile-name" style="font-size: medium;" ></span> -->
+                </button>
+                <ul class="profile-menu fade-in-up">
+                    <li>
+                        <a href="/profile">
+                            <i class="pi pi-user"></i>
+                            <span>{{'PROFILE'| translate}}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" (click)="logout()">
+                            <i class="pi pi-power-off"></i>
+                            <span>{{'LOGUOT'| translate}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<p-dialog [(visible)]="priceDilog" [style]="{width: '800px'}" header="{{ 'PRICE_LIST' | translate }}" [modal]="true"
+    styleClass="p-fluid" (onHide)="closePrice()">
+    <app-price-list></app-price-list>
+</p-dialog>

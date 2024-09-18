@@ -1,0 +1,97 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <p-toast></p-toast>
+        <div class="card">
+            <p-table #dtInvoices [value]="items" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20]"
+                [lazy]="true" (onLazyLoad)="loadItems($event)" [totalRecords]="totalRecords" [loading]="loading"
+                styleClass="p-datatable-sm" (onPage)="onPageChange($event)" [rowHover]="true" dataKey="id"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+                    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+                        <h5 class="p-m-0">{{ 'RECEPTS' | translate }}</h5>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onSearch($event.target.value)"
+                                placeholder="{{'SEARCH' | translate}}" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{ 'PATIENT_FULL_NAME' | translate }}</th>
+                        <th>{{ 'PHONE_NUMBER' | translate }}</th>
+                        <th>{{ 'PROVIDED_SUMM' | translate }}</th>
+                        <th>{{ 'DISCOUNT_SUMM' | translate }}</th>
+                        <th>{{ 'TOTAL_SUMM' | translate }}</th>
+                        <th>{{ 'DEBT' | translate }}</th>
+                        <th>{{ 'DOCTOR_FULL_NAME' | translate }}</th>
+                        <th>{{ 'RECEPT_DATE' | translate }}</th>
+                        <th>{{ 'ACTIONS' | translate }}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            {{item.patientFullName}}
+                        </td>
+                        <td>
+                            {{item.phoneNumber}}
+                        </td>
+                        <td>
+                            {{item.providedSumm | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.discount | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.totalSumm | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.debt | number}} {{'UZS'|translate}}
+                        </td>
+                        <td>
+                            {{item.doctorFullName}}
+                        </td>
+                        <td>
+                            {{ item.receptDate | localizedDate:'dd.MM.yyyy HH:mm' }}
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-th-large"
+                                class="p-button-rounded p-button-success p-mr-1" (click)="viewDetails(item)" pTooltip="Детали"></button>
+                            <button pButton pRipple icon="pi pi-book" class="p-button-rounded p-button-success p-mr-1"
+                                (click)="viewPayments(item)" pTooltip="Просмотр платежей"></button>
+                            <button pButton pRipple icon="pi pi-credit-card"
+                                class="p-button-rounded p-button-success p-mr-1" (click)="createPayment(item)" pTooltip="Провести платеж"></button>
+                            <button pButton pRipple icon="pi pi-percentage"
+                                class="p-button-rounded p-button-success p-mr-1"
+                                (click)="provideDiscount(item)" pTooltip="Предоставить скидку"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <app-provide-discount [openDialog]="provideDiscountDialog" [invoiceId]="editItem?.id"
+            (closed)="onDiscountClosed()" (discountProvided)="onDiscountProvided($event)">
+
+        </app-provide-discount>
+        <app-provide-payment [openDialog]="providePaymentDialog" [invoice]="editItem" (closed)="onPaymentClosed()"
+            (paymentProvided)="onPaymentProvided($event)">
+
+        </app-provide-payment>
+        <app-payment [isOpen]="paymentDialog" [payments]="invoicePayments" (closed)="onClosePayments()">
+
+        </app-payment>
+        <p-dialog #receptDialog [(visible)]="viewReceptDialog" [style]="{width: '1080px'}"
+            header="{{ 'RECEPT' | translate }}" [modal]="true" styleClass="p-fluid" (onHide)="closeRecept()">
+            <app-view-recept [model]="currentRecept">
+
+            </app-view-recept>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="{{'CLOSE'|translate}}" icon="pi pi-times" class="p-button-text"
+                    (click)="closeRecept()"></button>
+            </ng-template>
+        </p-dialog>
+        <p-confirmDialog [style]="{width: '700px'}"></p-confirmDialog>
+    </div>
+</div>

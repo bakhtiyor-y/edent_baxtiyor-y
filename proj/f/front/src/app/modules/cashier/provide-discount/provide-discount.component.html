@@ -1,0 +1,23 @@
+<p-dialog [(visible)]="isOpen" [style]="{width: '600px'}" header="{{ 'PROVIDE_DISCOUNT' | translate }}" [modal]="true"
+    styleClass="p-fluid" (onHide)="onClose()">
+    <ng-template pTemplate="content">
+        <div class="p-formgrid p-grid">
+            <div *ngFor="let discountType of discountTypes" class="p-field-checkbox p-col-3">
+                <p-radioButton [inputId]="discountType.value" name="discountType" [value]="discountType.value"
+                    [(ngModel)]="model.discountType"></p-radioButton>
+                <label [for]="discountType.value">{{discountType.text}}</label>
+            </div>
+        </div>
+        <div class="p-field">
+            <label for="discount">{{ 'DISCOUNT' | translate }}</label>
+            <p-inputNumber [(ngModel)]="model.discount" inputId="discount" mode="decimal" required autofocus>
+            </p-inputNumber>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CANCEL'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="onClose()"></button>
+        <button pButton pRipple label="{{'PROVIDE'|translate}}" icon="pi pi-check" class="p-button-text"
+            (click)="onProvideDiscount()"></button>
+    </ng-template>
+</p-dialog>

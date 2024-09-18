@@ -1,0 +1,11 @@
+
+services:
+  app: 
+    container_name: edent_internal_database
+    build:
+      context: ./
+      dockerfile: Edent.Api/Dockerfile
+    ports:
+      - "5500:80"
+    extra_hosts:
+      - "localhost:host-gateway"

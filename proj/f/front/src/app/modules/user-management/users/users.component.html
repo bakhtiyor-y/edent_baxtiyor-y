@@ -1,0 +1,105 @@
+<div class="p-grid">
+	<div class="p-col-12">
+		<p-toast></p-toast>
+		<div class="card">
+			<p-toolbar styleClass="p-mb-4">
+				<ng-template pTemplate="left">
+					<button pButton pRipple label="{{'ADD_NEW' | translate}}" icon="pi pi-user-plus"
+						class="p-button-success p-mr-2 p-mb-2" (click)="add()"></button>
+					<button pButton pRipple label="{{'DELETE_USER' | translate}}" icon="pi pi-trash"
+						class="p-button-danger p-mb-2" (click)="deleteSelectedUsers()"
+						[disabled]="!selectedUsers || !selectedUsers.length"></button>
+				</ng-template>
+
+				<!-- <ng-template pTemplate="right">
+					<p-fileUpload mode="basic" accept="image/*" [maxFileSize]="1000000" label="Import" chooseLabel="Import" class="p-mr-2 p-mb-2 p-d-inline-block"></p-fileUpload>
+					<button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help p-mb-2" (click)="dt.exportCSV()"></button>
+				</ng-template> -->
+			</p-toolbar>
+
+			<p-table #dtUsers [value]="users" [columns]="cols" [rows]="10" [paginator]="true"
+				[rowsPerPageOptions]="[10,20]" [lazy]="true" (onLazyLoad)="loadUsers($event)"
+				[totalRecords]="totalRecords" [loading]="loading" styleClass="p-datatable-sm"
+				(onPage)="onPageChange($event)" [globalFilterFields]="['userName']" [(selection)]="selectedUsers"
+				[rowHover]="true" dataKey="id"
+				currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+				[showCurrentPageReport]="true">
+				<ng-template pTemplate="caption">
+					<div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+						<h5 class="p-m-0">{{ 'MANAGE_USERS' | translate }}</h5>
+						<span class="p-input-icon-left">
+							<i class="pi pi-search"></i>
+							<input pInputText type="text"
+								(input)="dtUsers.filterGlobal($event.target.value, 'contains')"
+								placeholder="{{'SEARCH' | translate}}" />
+						</span>
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header">
+					<tr>
+						<th style="width: 3rem">
+							<p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+						</th>
+						<th pSortableColumn="userName">{{ 'USER_NAME' | translate }} <p-sortIcon field="userName">
+							</p-sortIcon>
+						</th>
+						<th pSortableColumn="fullName">{{ 'FULL_NAME' | translate }} <p-sortIcon field="fullName">
+							</p-sortIcon>
+						</th>
+						<th pSortableColumn="birthDate">{{ 'BIRTH_DATE' | translate }} <p-sortIcon field="birthDate">
+							</p-sortIcon>
+						</th>
+						<th pSortableColumn="phoneNumber">{{ 'PHONE_NUMBER' | translate }} <p-sortIcon
+								field="phoneNumber"></p-sortIcon>
+						</th>
+						<th pSortableColumn="email">{{ 'EMAIL' | translate }}<p-sortIcon field="email"></p-sortIcon>
+						</th>
+						<th pSortableColumn="isActive">{{ 'IS_ACTIVE' | translate }} <p-sortIcon field="isActive">
+							</p-sortIcon>
+						</th>
+						<th>{{ 'ACTIONS' | translate }}</th>
+					</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-user>
+					<tr>
+						<td>
+							<p-tableCheckbox [value]="user"></p-tableCheckbox>
+						</td>
+						<td>
+							{{user.userName}}
+						</td>
+						<td>
+							{{user.fullName}}
+						</td>
+						<td>
+							{{ user.birthDate | localizedDate:'dd.MM.yyyy' }}
+						</td>
+						<td>
+							{{user.phoneNumber}}
+						</td>
+						<td>
+							{{user.email}}
+						</td>
+						<td>
+							{{user.isActive}}
+						</td>
+						<td>
+							<button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+								(click)="setPassword(user)" pTooltip="{{'SET_PASSWORD'|translate}}"></button>
+							<button pButton pRipple icon="pi pi-user-edit"
+								class="p-button-rounded p-button-success p-mr-2" (click)="edit(user)" pTooltip="{{'EDIT'|translate}}"></button>
+							<button pButton pRipple icon="pi pi-user-minus" class="p-button-rounded p-button-warning"
+								(click)="delete(user)" pTooltip="{{'DELETE'|translate}}"></button>
+						</td>
+					</tr>
+				</ng-template>
+			</p-table>
+		</div>
+		<app-user-edit-form [isOpen]="userDialog" [model]="userManage" [roles]="roles" (saved)="onSaved($event)"
+			(closed)="onClosed()"></app-user-edit-form>
+
+		<app-set-password [isOpen]="passwordDialog" [model]="setPasswordModel" (saved)="setPasswordHandler()"
+			(closed)="setPasswordClosed()"></app-set-password>
+		<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>
+	</div>
+</div>

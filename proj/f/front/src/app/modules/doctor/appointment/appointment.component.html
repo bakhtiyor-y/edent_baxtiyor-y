@@ -1,0 +1,28 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <p-toast></p-toast>
+        <div class="card">
+            <p-fullCalendar #fullCalendar [events]="events" [options]="options"></p-fullCalendar>
+        </div>
+    </div>
+</div>
+<p-confirmDialog></p-confirmDialog>
+<app-doctor-appoint-patient [isOpen]="appointDialog" [selectedDate]="appointDate" (cancelled)="onAppointCancelled()"
+    (appointed)="onAppointed()">
+</app-doctor-appoint-patient>
+<app-doctor-edit-appoint [isOpen]="editAppointDialog" [model]="selectedAppointment"
+    (appointmentCancelled)="onAppointmentCancelled()" (saved)="onAppointmentEdited()" (closed)="onAppointmentClosed()"
+    (recepted)="onAppointmentRecept()">
+
+</app-doctor-edit-appoint>
+
+<p-dialog #receptDialog [(visible)]="viewReceptDialog" [style]="{width: '1080px'}" header="{{ 'RECEPT' | translate }}"
+    [modal]="true" styleClass="p-fluid" (onHide)="closeRecept()">
+    <app-view-recept [model]="receptModel">
+
+    </app-view-recept>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CLOSE'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="closeRecept()"></button>
+    </ng-template>
+</p-dialog>

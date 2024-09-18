@@ -1,0 +1,36 @@
+<p-dialog [(visible)]="isOpen" [style]="{width: '600px'}" header="{{ 'PROVIDE_PAYMENT' | translate }}" [modal]="true"
+    styleClass="p-fluid" (onHide)="onClose()">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+            <label>{{ 'PATIENT' | translate }} : {{ invoice.patientFullName }}</label>
+        </div>
+        <div class="p-field">
+            <label>{{ 'PATIENT_BALANCE' | translate }} : {{ invoice.patientBalance | number }} {{'UZS'|translate}}</label>
+        </div>
+        <div class="p-formgrid p-grid">
+            <div *ngFor="let paymentMode of paymentModes" class="p-field-checkbox p-col-3">
+                <p-radioButton [inputId]="paymentMode.value" name="paymentMode" [value]="paymentMode.value"
+                    [(ngModel)]="model.isFromBalance"></p-radioButton>
+                <label [for]="paymentMode.value">{{paymentMode.text}}</label>
+            </div>
+        </div>
+        <div class="p-formgrid p-grid">
+            <div *ngFor="let paymentType of paymentTypes" class="p-field-checkbox p-col-3">
+                <p-radioButton [inputId]="paymentType.value" name="paymentType" [value]="paymentType.value"
+                    [(ngModel)]="model.paymentType"></p-radioButton>
+                <label [for]="paymentType.value">{{paymentType.text}}</label>
+            </div>
+        </div>
+        <div class="p-field">
+            <label for="discount">{{ 'PAYMENT_SUMM' | translate }}</label>
+            <p-inputNumber [(ngModel)]="model.payedSumm" inputId="discount" mode="decimal" required autofocus>
+            </p-inputNumber>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CANCEL'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="onClose()"></button>
+        <button pButton pRipple label="{{'PROVIDE'|translate}}" icon="pi pi-check" class="p-button-text"
+            (click)="onProvidePayment()"></button>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,59 @@
+<div class="p-grid">
+    <!-- <div *ngIf="editMode" class="col-fixed" style="width:180px; padding: 1em;">
+        <h6>{{'ACTIONS'|translate}}</h6>
+        <div class="p-grid p-flex p-flex-column" style="margin: 0px !important;">
+            <button pButton label="{{ isSome ? ('CANCEL_SOME'| translate) : ('SELECT_SOME' | translate) }}"
+                (click)="isSomeToggle()" class="p-button-secondary p-mr-2 p-mb-2" style="width: 170px;"></button>
+            <button pButton label="{{'SET_TREATMENT' | translate}}" class="p-button-success p-mr-2 p-mb-2"
+                (click)="onSetTreatment()" [disabled]="selectedTeeth.length === 0" style="width: 170px;"></button>
+            <button pButton label="{{ isAllSelected ? ('DESELECT_ALL'|translate) : ('SELECT_ALL'|translate)}}"
+                class="p-button-primary p-mr-2 p-mb-2" (click)="selectAllToggle()" style="width: 170px;"
+                [disabled]="isSome"></button>
+        </div>
+    </div> -->
+    <div class="p-col p-pb-0 p-mb-0">
+        <div class="p-grid">
+            <div class="p-col p-pb-1 p-mb-0" style="padding-top: 25px;">
+                <h6>{{'DENTITION'|translate}}</h6>
+            </div>
+            <div *ngIf="editMode" class="col-fixed p-pb-1 p-mb-0" style="width:160px; padding: 1em;">
+                <p-splitButton label="{{'ACTIONS'|translate}}" [model]="this.menuItems" styleClass="p-button-sm p-button-secondary"></p-splitButton>
+            </div>
+        </div>
+        <div style="min-width: 400px;">
+            <div class="grid" style="background-image: linear-gradient(pink, white 90% 100%);">
+                <div class="col-12 p-pb-0 p-mb-0">
+                    <div style="display: table; margin: 0 auto;">
+                        <ng-container *ngFor="let patientTooth of teeth?.topLeft">
+                            <app-tooth-control [model]="patientTooth" [selected]="isSelected(patientTooth)"
+                                [editMode]="editMode" (toothSelected)="onToothSelected($event)"
+                                (toothDeselected)="onToothDeselected($event)"></app-tooth-control>
+                        </ng-container>
+                        <ng-container *ngFor="let patientTooth of teeth?.topRight">
+                            <app-tooth-control [model]="patientTooth" [selected]="isSelected(patientTooth)"
+                                [editMode]="editMode" (toothSelected)="onToothSelected($event)"
+                                (toothDeselected)="onToothDeselected($event)"></app-tooth-control>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="grid" style="background-image: linear-gradient(white 0 20%, pink);">
+                <div class="col-12 p-pb-0 p-mb-0">
+                    <div style="display: table; margin: 0 auto;">
+                        <ng-container *ngFor="let patientTooth of teeth?.bottomLeft">
+                            <app-tooth-control [model]="patientTooth" [selected]="isSelected(patientTooth)"
+                                [editMode]="editMode" (toothSelected)="onToothSelected($event)"
+                                (toothDeselected)="onToothDeselected($event)"></app-tooth-control>
+                        </ng-container>
+                        <ng-container *ngFor="let patientTooth of teeth?.bottomRight">
+                            <app-tooth-control [model]="patientTooth" [selected]="isSelected(patientTooth)"
+                                [editMode]="editMode" (toothSelected)="onToothSelected($event)"
+                                (toothDeselected)="onToothDeselected($event)"></app-tooth-control>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

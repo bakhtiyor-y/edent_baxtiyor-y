@@ -1,0 +1,93 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <p-toast></p-toast>
+        <div class="card">
+            <p-toolbar styleClass="p-mb-4">
+                <ng-template pTemplate="left">
+                    <button pButton pRipple label="{{'ADD_NEW' | translate}}" icon="pi pi-user-plus"
+                        class="p-button-success p-mr-2 p-mb-2" (click)="add()"></button>
+                    <button pButton pRipple label="{{'DELETE_SELECTED' | translate}}" icon="pi pi-trash"
+                        class="p-button-danger p-mb-2" (click)="deleteSelectedDoctors()"
+                        [disabled]="!selectedDoctors || !selectedDoctors.length"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dtDoctors [value]="doctors" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20]"
+                [lazy]="true" (onLazyLoad)="loadDoctors($event)" [totalRecords]="totalRecords" [loading]="loading"
+                styleClass="p-datatable-sm" (onPage)="onPageChange($event)" [(selection)]="selectedDoctors"
+                [rowHover]="true" dataKey="id"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+                    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+                        <h5 class="p-m-0">{{ 'MANAGE_DOCTORS' | translate }}</h5>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th>{{ 'FULL_NAME' | translate }}
+                        </th>
+                        <th>{{ 'BIRTH_DATE' | translate }}
+                        </th>
+                        <th>{{ 'SPECIALIZATION' | translate }}
+                        </th>
+                        <th>{{ 'PHONE_NUMBER' | translate }}
+                        </th>
+                        <th>{{ 'EMAIL' | translate }}
+                        </th>
+                        <th>{{ 'TERM' | translate }}
+                        </th>
+                        <th>{{ 'IS_ACTIVE' | translate }}
+                        </th>
+                        <th>{{ 'ACTIONS' | translate }}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-doctor>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="doctor"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{doctor.fullName}}
+                        </td>
+                        <td>
+                            {{ doctor.birthDate | localizedDate:'dd.MM.yyyy' }}
+                        </td>
+                        <td>
+                            {{doctor.specialization}}
+                        </td>
+                        <td>
+                            {{doctor.phoneNumber}}
+                        </td>
+                        <td>
+                            {{doctor.email}}
+                        </td>
+                        <td>
+                            {{doctor.term}}
+                        </td>
+                        <td>
+                            {{doctor.isActive}}
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                                (click)="setPassword(doctor)" pTooltip="{{'SET_PASSWORD'|translate}}"></button>
+                            <button pButton pRipple icon="pi pi-user-edit"
+                                class="p-button-rounded p-button-success p-mr-2" (click)="edit(doctor)" pTooltip="{{'EDIT'|translate}}"></button>
+                            <button pButton pRipple icon="pi pi-user-minus" class="p-button-rounded p-button-warning"
+                                (click)="delete(doctor)" pTooltip="{{'DELETE'|translate}}"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <app-doctor-edit-form [isOpen]="doctorDialog" [model]="doctor" (saved)="onSaved($event)" (closed)="onClosed()">
+        </app-doctor-edit-form>
+
+        <app-set-password [isOpen]="passwordDialog" [model]="setPasswordModel" (saved)="setPasswordHandler()"
+            (closed)="setPasswordClosed()"></app-set-password>
+        <p-confirmDialog [style]="{width: '700px'}"></p-confirmDialog>
+    </div>
+</div>

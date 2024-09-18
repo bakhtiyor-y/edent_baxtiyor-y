@@ -1,0 +1,67 @@
+<p-dialog [(visible)]="isOpen" [style]="{width: '600px'}"
+    header="{{ !dentalService || dentalService.id === 0 ? ('ADD'|translate):('EDIT'|translate)}}" [modal]="true"
+    styleClass="p-fluid" (onHide)="close()">
+    <ng-template pTemplate="content">
+        <form [formGroup]="editForm">
+            <div class="p-field">
+                <label for="name">{{ 'NAME' | translate }}</label>
+                <input type="text" pInputText id="name" formControlName="name" required autofocus />
+                <small class="p-error block"
+                    *ngIf="editForm.get('name').invalid && (editForm.get('name').dirty || editForm.get('name').touched)">
+                    {{'NAME_IS_REQUIRED'|translate}}
+                </small>
+            </div>
+            <div class="p-field">
+                <label for="description">{{ 'DESCRIPTION' | translate }}</label>
+                <input type="text" pInputText id="description" formControlName="description" />
+            </div>
+            <div class="p-formgrid p-grid">
+                <div class="p-field p-col-6">
+                    <label for="dentalServiceGroupId">{{ 'DENTAL_SERVICE_GROUP' | translate }}</label>
+                    <p-dropdown [options]="dentalServiceGroups" placeholder="{{'SELECT_GROUP'|translate}}"
+                        inputId="dentalServiceGroupId" formControlName="dentalServiceGroupId" optionLabel="name"
+                        optionValue="id" (onChange)="onDentalServiceGroupChange($event)" required>
+                    </p-dropdown>
+                    <small class="p-error block"
+                        *ngIf="editForm.get('dentalServiceGroupId').invalid && (editForm.get('dentalServiceGroupId').dirty || editForm.get('dentalServiceGroupId').touched)">
+                        {{'DENTAL_SERVICE_GROUP_IS_REQUIRED'|translate}}
+                    </small>
+                </div>
+                <div class="p-field p-col-6">
+                    <label for="dentalServiceCategoryId">{{ 'DENTAL_SERVICE_CATEGORY' | translate }}</label>
+                    <p-dropdown [options]="dentalServiceCategories" placeholder="{{'SELECT_CATEGORY'|translate}}"
+                        inputId="dentalServiceCategoryId" (onChange)="onDentalServiceCategorChange($event)"
+                        formControlName="dentalServiceCategoryId" optionLabel="name" optionValue="id">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="p-formgrid p-grid">
+                <div class="p-field p-col-6">
+                    <label for="type">{{'TYPE'|translate}}</label>
+                    <p-dropdown [options]="dentalServiceTypes" placeholder="{{'SELECT_TYPE'|translate }}" inputId="type"
+                        formControlName="type" optionLabel="text" optionValue="value" required>
+                    </p-dropdown>
+                </div>
+                <div class="p-field p-col-6">
+                    <label for="type">{{'TOOTH_STATE'|translate}}</label>
+                    <p-dropdown [options]="toothStates" placeholder="{{'SELECT_TOOTH_STATE'|translate }}" inputId="type"
+                        formControlName="toothState" optionLabel="text" optionValue="value" required>
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="dentalServiceGroupId">{{ 'DENTAL_SERVICE_RECEPT_INVENTORIES' | translate }}</label>
+                <p-autoComplete name="selectedReceptInventorySetting" [(ngModel)]="selectedReceptInventorySettings"
+                    [suggestions]="receptInventorySettings" (completeMethod)="onReceptInventorySettingSelected($event)"
+                    field="name" [multiple]="true" [ngModelOptions]="{standalone: true}">
+                </p-autoComplete>
+            </div>
+        </form>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CANCEL'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="close()"></button>
+        <button pButton pRipple label="{{'SAVE'|translate}}" icon="pi pi-check" class="p-button-text" (click)="save()"
+            [disabled]="!editForm.valid"></button>
+    </ng-template>
+</p-dialog>

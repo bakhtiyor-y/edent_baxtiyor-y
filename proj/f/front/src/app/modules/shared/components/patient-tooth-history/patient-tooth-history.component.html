@@ -1,0 +1,16 @@
+<div class="p-grid">
+    <div class="p-col p-mb-0 p-pb-0">
+        <h6 style="margin: 0px;">{{'TOOTH'|translate}} {{patientTooth?.tooth?.name}}</h6>
+        <hr style="margin-top: 3px;" />
+        <div [style.maxHeight]="maxHeight" [style.height]="height" style=" overflow-y:auto; overflow-x: hidden;">
+            <div class="p-grid" *ngFor="let th of toothHistories; let i = index" class="p-grid">
+                <div class="p-col p-mb-0 p-pb-1">
+                    <label><strong>{{th.dentalServiceName}}</strong>: {{th.description}}</label>
+                </div>
+                <div class="p-col-3 p-mb-0 p-pb-1">
+                    <label>{{th.treatmentDate | localizedDate:'dd.MM.yyyy HH:mm'}}</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

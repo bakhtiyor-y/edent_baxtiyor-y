@@ -1,0 +1,54 @@
+<p-dialog [(visible)]="isOpen" [style]="{width: '600px'}" [contentStyle]="{minHeight: '450px' }"
+    header="{{ 'EDIT' | translate }}" [modal]="true" styleClass="p-fluid" (onHide)="close()">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+            <h5>
+                <span>{{ 'PATIENT' | translate }}: </span>
+                <span>{{appointment.patientFullName}}, {{'PHONE_NUMBER'|translate}}:
+                    {{appointment.patientPhoneNumber}}</span>
+            </h5>
+        </div>
+        <div class="p-field">
+            <label for="appointmentDate">{{ 'APPOINTMENT_DATE' | translate }}</label>
+            <p-calendar [(ngModel)]="appointment.appointmentDate" dateFormat="dd.mm.yy" [monthNavigator]="true"
+                [yearNavigator]="true" yearRange="1930:2030" (onSelect)="onAppointmentDateChange($event)" required>
+            </p-calendar>
+            <small class="p-invalid" *ngIf="submitted && !editForm.valid">{{ 'APPOINTMENT_DATE_IS_REQUIRED'
+                | translate }}</small>
+        </div>
+        <div class="p-field">
+            <label for="lastName">{{ 'APPOINTMENT_TIME' | translate }}</label>
+            <p-dropdown [options]="scheduleEvents" optionDisabled="isBusy" [(ngModel)]="selectedEvent"
+                optionLabel="startingText" placeholder="{{'SELECT_APPOINTMENT_TIME'|translate}}"
+                (onChange)="onAppointmentTimeChange($event.value)">
+            </p-dropdown>
+        </div>
+        <div class="p-field">
+            <label for="dentalChair">{{ 'DENTAL_CHAIR' | translate }}</label>
+            <p-dropdown [options]="dentalChairs" [(ngModel)]="selectedChair" optionLabel="name"
+                placeholder="{{'SELECT_DENTAL_CHAIR'|translate}}" optionDisabled="isBusy">
+                <ng-template pTemplate="selectedChair">
+                    <div *ngIf="selectedChair">
+                        <div>{{selectedChair.name}}</div>
+                    </div>
+                </ng-template>
+                <ng-template let-chair pTemplate="item">
+                    <div>
+                        <div>{{chair.name}} - {{chair.description}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <!-- <button pButton pRipple label="{{'CLOSE'|translate}}" icon="pi pi-times"
+            class="p-button-text p-button-secondary" (click)="close()"></button> -->
+        <button pButton pRipple label="{{'SAVE'|translate}}" icon="pi pi-check" class="p-button-text"
+            (click)="save()"></button>
+        <button pButton label="{{'CANCEL_APPOINTMENT'|translate}}" icon="pi pi-trash"
+            class="p-button-text p-button-danger" (click)="cancelAppointment()"></button>
+        <button pButton pRipple label="{{'RECEPT'|translate}}" icon="pi pi-calendar-plus"
+            class="p-button-text p-button-success" (click)="onRecept()"></button>
+    </ng-template>
+</p-dialog>

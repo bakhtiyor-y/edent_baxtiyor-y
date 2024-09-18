@@ -1,0 +1,82 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <p-toast></p-toast>
+        <div class="card">
+            <p-toolbar styleClass="p-mb-4">
+                <ng-template pTemplate="left">
+                    <button pButton pRipple label="{{'ADD_NEW_APPOINTMENT' | translate}}" icon="pi pi-user-plus"
+                        class="p-button-success p-mr-2 p-mb-2" (click)="add()"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dtAppointments [value]="items" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[10,20]"
+                [lazy]="true" (onLazyLoad)="loadItems($event)" [totalRecords]="totalRecords" [loading]="loading"
+                styleClass="p-datatable-sm" (onPage)="onPageChange($event)" [(selection)]="selectedItems"
+                [rowHover]="true" dataKey="id"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+                    <div class="p-d-flex p-flex-column p-flex-md-row p-jc-md-between table-header">
+                        <h5 class="p-m-1">{{ 'PATIENT_APPOINMENTS' | translate }}</h5>
+                        <div *ngFor="let status of appointmentStatuses" class="p-field-checkbox p-mb-0">
+                            <p-radioButton [inputId]="status.value" name="paymentMode" [value]="status.value"
+                                [(ngModel)]="selectedStatus" (onClick)="onStatusChoosed($event)"></p-radioButton>
+                            <label [for]="status.value">{{status.text}}</label>
+                        </div>
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onSearch($event.target.value)"
+                                placeholder="{{'SEARCH' | translate}}" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>{{ 'APPOINTMENT_DATE' | translate }}
+                        </th>
+                        <th>{{ 'APPOINTMENT_STATUS' | translate }}
+                        </th>
+                        <th>{{ 'PATIENT_FULL_NAME' | translate }}
+                        </th>
+                        <th>{{ 'PATIENT_BIRTH_DATE' | translate }}
+                        </th>
+                        <th>{{ 'PATIENT_PHONE_NUMBER' | translate }}
+                        </th>
+                        <th>{{ 'DOCTOR_FULL_NAME' | translate }}
+                        </th>
+                        <th>{{ 'ACTIONS' | translate }}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            {{item.appointmentDate | localizedDate:'dd.MM.yyyy HH:mm'}}
+                        </td>
+                        <td>
+                            {{getAppointmentStatusText(item.appointmentStatus)}}
+                        </td>
+                        <td>
+                            {{item.patientFullName}}
+                        </td>
+                        <td>
+                            {{ item.patientBirthDate | localizedDate:'dd.MM.yyyy' }}
+                        </td>
+                        <td>
+                            {{item.patientPhoneNumber}}
+                        </td>
+                        <td>
+                            {{item.doctorFullName}}
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2"
+                                (click)="edit(item)" pTooltip="{{'EDIT'|translate}}" [disabled]="item.appointmentStatus == AppointmentStatus.CarriedOut || item.appointmentStatus == AppointmentStatus.Cancelled"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+        <app-edit-appointment [isOpen]="editDialog" [model]="editItem" (saved)="onEdit($event)" (closed)="onEditClose()"
+            (appointmentCancelled)="onAppointmentCancelled()"></app-edit-appointment>
+        <p-confirmDialog [style]="{width: '700px'}"></p-confirmDialog>
+    </div>
+</div>

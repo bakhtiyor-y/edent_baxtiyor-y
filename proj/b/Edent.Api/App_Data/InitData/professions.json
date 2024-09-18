@@ -1,0 +1,533 @@
+[
+  {
+    "name": "Врач",
+    "description": "",
+    "specializations": [
+      {
+        "name": "Акушер",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Аллерголог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Ангиохирург",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Андролог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Анестезиолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Аудиолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Венеролог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Вертебролог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Врач лабораторной диагностики",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Врач лечебной физкультуры",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Врач магнитно резонансной томографии",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Врач общей практики",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Врач спортивной медицины",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Врач ультразвуковой диагностики",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Врач функциональной диагностики",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Гастроэнтеролог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Гемотолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Генетик",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Гепатолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Гериатр",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Гигиенист",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Гинеколог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Гирудотерапевт",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Гомеопат",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Дерматолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Детский хирург",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Диетолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Другая специальность",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Иммунолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Инфекционист",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Кардиолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Кинезитеропевт",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Клинический фармаколог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Колопротолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Косметолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Лоборант",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Логопед",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "ЛОР (Оториноларинголог)",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Маммолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Мануальный теропевт",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Массажист",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Медицинская сестра",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Медицинский брат",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Медицинский директор",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Миколог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Нарколог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Невролог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Нейрофизиолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Нейрохирург",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Неонатолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Нефролог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Окулист (Офтальмолог)",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Онколог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Ортапед",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Остеопат",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Паразитолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Пародонтолог",
+        "description": "",
+        "order": 9
+      },
+      {
+        "name": "Патологоанатом",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Педагог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Педиатр",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Пластический хирург",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Проктолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Профпатолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Психиатор",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Психолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Психотерапевт",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Пульмонолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Радиолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Реабилитолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Реаниматолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Ревматолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Рентгенолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Репродуктолог (ЭКО)",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Рефлексотеропевт",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Сексолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Сомнолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Стоматолог",
+        "description": "",
+        "order": 1
+      },
+      {
+        "name": "Стоматолог детский",
+        "description": "",
+        "order": 2
+      },
+      {
+        "name": "Стоматолог-гигиенист",
+        "description": "",
+        "order": 3
+      },
+      {
+        "name": "Стоматолог-ортодонт",
+        "description": "",
+        "order": 4
+      },
+      {
+        "name": "Стоматолог-ортопед",
+        "description": "",
+        "order": 5
+      },
+      {
+        "name": "Стоматолог-терапевт",
+        "description": "",
+        "order": 6
+      },
+      {
+        "name": "Стоматолог-хирург",
+        "description": "",
+        "order": 7
+      },
+      {
+        "name": "Сурдолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Теропевт",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Токсиколог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Травматолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Трансплантолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Трансфузиолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Трихолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Уролог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Фармацевт",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Фельдшер",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Физиотеропевт",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Флеболог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Фониатр",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Фтизиатор",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Хирург",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Хирург-имплантолог",
+        "description": "",
+        "order": 8
+      },
+      {
+        "name": "Челюстно-лицевой хирург",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Эмбриолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Эндокринолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Эндоскопист",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Эпидемиолог",
+        "description": "",
+        "order": 10
+      },
+      {
+        "name": "Эпилептолог",
+        "description": "",
+        "order": 10
+      }
+    ]
+  }
+]

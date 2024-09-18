@@ -1,0 +1,44 @@
+<p-dialog [(visible)]="isOpen" [style]="{width: '600px'}"
+    header="{{ !city || city.id === 0 ? ('ADD'|translate) : ('EDIT'|translate) }}" [modal]="true" styleClass="p-fluid"
+    (onHide)="close()">
+    <ng-template pTemplate="content">
+        <form [formGroup]="editForm">
+            <div class="p-field">
+                <label for="country">{{'COUNTRY'|translate}}</label>
+                <p-dropdown [options]="countries" inputId="country" name="selectedCountry"
+                    [(ngModel)]="selectedCountryId" optionLabel="name" optionValue="id"
+                    (onChange)="onCountryChange($event.value)" placeholder="{{'SELECT_COUNTRY'|translate}}"
+                    [ngModelOptions]="{standalone: true}"></p-dropdown>
+            </div>
+            <div class="p-field">
+                <label for="region">{{'REGION'|translate}}</label>
+                <p-dropdown [options]="regions" inputId="region" formControlName="regionId" optionLabel="name"
+                    optionValue="id" placeholder="{{'SELECT_REGION'|translate}}" required></p-dropdown>
+                <small class="p-error block"
+                    *ngIf="editForm.get('regionId').invalid && (editForm.get('regionId').dirty || editForm.get('regionId').touched)">{{'REGION_IS_REQUIRED'|translate}}
+                </small>
+            </div>
+            <div class="p-field">
+                <label for="name">{{'NAME'|translate}}</label>
+                <input type="text" pInputText id="name" formControlName="name" required autofocus />
+                <small class="p-error block"
+                    *ngIf="editForm.get('name').invalid && (editForm.get('name').dirty || editForm.get('name').touched)">
+                    {{'NAME_IS_REQUIRED'|translate}}
+                </small>
+            </div>
+            <div class="p-field">
+                <label for="code">{{'CODE'|translate}}</label>
+                <input type="text" pInputText id="code" formControlName="code" required />
+                <small class="p-error block"
+                    *ngIf="editForm.get('code').invalid && (editForm.get('code').dirty || editForm.get('code').touched)">{{'CODE_IS_REQUIRED'|translate}}
+                </small>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CANCEL'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="close()"></button>
+        <button pButton pRipple label="{{'SAVE'|translate}}" icon="pi pi-check" class="p-button-text" (click)="save()" [disabled]="!editForm.valid"></button>
+    </ng-template>
+</p-dialog>

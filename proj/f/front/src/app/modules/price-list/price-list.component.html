@@ -1,0 +1,43 @@
+<div class="p-grid">
+    <div class="p-col-12 ">
+        <div class="card ">
+            <div class="p-d-flex p-mb-3">
+
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input #inpField pInputText type="text" (input)="onSearch($event.target.value)" placeholder="{{ 'SEARCH' | translate }}"/>
+                    <i 
+                        *ngIf="inpField.value" 
+                        class="pi pi-times cursor-pointer pricelist" 
+                        (click)="onClear(); inpField.value = null;" 
+                    ></i>
+                </span>
+
+                <button pButton pRipple icon="pi pi-print" class="p-button-text p-ml-auto" printSectionId="allPriceList"
+                    ngxPrint></button>
+            </div>
+            <div id="allPriceList">
+                <p-table [value]="priceList">
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>{{'NAME'|translate}}</th>
+                            <th>{{'PRICE'|translate}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-price>
+                        <tr>
+                            <td colspan="2" style="text-align:center; background-color: lightblue; font-weight: 700;">
+                                {{price.description}}
+                            </td>
+                        </tr>
+                        <tr *ngFor="let service of price.dentalServices;">
+                            <td>{{service.name}}</td>
+                            <td style="text-align:right; font-weight: 700;">{{service.currentPrice | number}}
+                                {{'UZS'|translate}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>

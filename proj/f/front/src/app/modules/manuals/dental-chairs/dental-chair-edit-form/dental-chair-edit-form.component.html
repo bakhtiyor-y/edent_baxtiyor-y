@@ -1,0 +1,31 @@
+<p-dialog [(visible)]="isOpen" [style]="{width: '600px'}"
+    header="{{ !dentalChair || dentalChair.id === 0 ? ('ADD'|translate) : ('EDIT'|translate) }}" [modal]="true"
+    styleClass="p-fluid" (onHide)="close()">
+    <ng-template pTemplate="content">
+        <form [formGroup]="editForm">
+            <div class="p-field">
+                <label for="name">{{'NAME'|translate}}</label>
+                <input type="text" pInputText id="name" formControlName="name" required autofocus />
+                <small class="p-error block"
+                    *ngIf="editForm.get('name').invalid && (editForm.get('name').dirty || editForm.get('name').touched)">
+                    {{'NAME_IS_REQUIRED'|translate}}
+                </small>
+            </div>
+            <div class="p-field">
+                <label for="code">{{'CODE'|translate}}</label>
+                <input type="text" pInputText id="code" formControlName="code" required />
+                <small class="p-error block"
+                    *ngIf="editForm.get('code').invalid && (editForm.get('code').dirty || editForm.get('code').touched)">
+                    {{'CODE_IS_REQUIRED'|translate}}
+                </small>
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CANCEL'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="close()"></button>
+        <button pButton pRipple label="{{'SAVE'|translate}}" icon="pi pi-check" class="p-button-text" (click)="save()"
+            [disabled]="!editForm.valid"></button>
+    </ng-template>
+</p-dialog>

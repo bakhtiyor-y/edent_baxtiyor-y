@@ -1,0 +1,24 @@
+<p-dialog [(visible)]="isOpen" [style]="{width: '400px'}" header="{{ 'SET_TECHNIC' | translate }}" [modal]="true"
+    styleClass="p-fluid" (onHide)="cancel()">
+    <ng-template pTemplate="content">
+        <div class="p-field">
+            <label for="lastName">{{ 'SEARCH_TECHNIC' | translate }}</label>
+            <p-autoComplete [(ngModel)]="selectedTechnic" [suggestions]="technics"
+                placeholder="{{'SEARCH_TECHNIC'|translate}}" (completeMethod)="searchTechnic($event)" dataKey="id"
+                field="fullName" (onClear)="onTechnicClear()" autofocus>
+            </p-autoComplete>
+        </div>
+        <div class="p-field">
+            <label for="technicShare">{{ 'TECHNIC_SHARE' | translate }}</label>
+            <p-inputNumber [(ngModel)]="technicShare" inputId="technicShare" mode="decimal" required>
+            </p-inputNumber>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CANCEL'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="cancel()"></button>
+        <button pButton pRipple label="{{'SAVE'|translate}}" icon="pi pi-check" class="p-button-text"
+            (click)="save()"></button>
+    </ng-template>
+</p-dialog>

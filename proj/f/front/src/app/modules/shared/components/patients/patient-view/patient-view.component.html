@@ -1,0 +1,78 @@
+<p-dialog #patientViewDialog [(visible)]="isOpen" [style]="{width: '1080px'}"
+    header="{{ 'PATIENT_HISTORY' | translate }}" [modal]="true" styleClass="p-fluid" (onHide)="close()">
+    <div class="p-grid">
+        <div class="p-col p-pb-0 p-mb-1">
+            <div class="card">
+                <div class="p-fluid">
+                    <h6>{{'PATIENT'|translate}} : {{patient?.fullName}}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col p-pb-0 p-mb-1">
+            <div class="card">
+                <app-teeth-control #teethCtrl [teeth]="currentTeeth" [editMode]="false"></app-teeth-control>
+            </div>
+        </div>
+    </div>
+    <div class="p-grid">
+        <div class="p-col p-pb-0 p-mb-1">
+            <div class="card" *ngFor="let recept of recepts; let j = index">
+                <h6 style="margin: 0px;">{{'RECEPT_NUMBER'|translate}} : {{recept.id}},
+                    {{'RECEPT_DATE'|translate}} : {{recept.createdDate|localizedDate:'dd.MM.yyyy'}}</h6>
+                <div class="p-fluid">
+                    <div *ngFor="let treatment of recept?.treatments; let i = index">
+                        <div class="p-grid p-pl-0 p-mt-0">
+                            <div class="p-col p-pb-0 p-mb-1">
+                                <span><strong>{{'TREATED_TOOTH'|translate}} :&nbsp;</strong></span>
+                                <span class="box p-shadow-1"
+                                    style="margin: 1px; padding-left: 3px; padding-right: 3px;">{{treatment.patientTooth.tooth.name}}</span>
+                            </div>
+                            <div class="p-col p-pb-0 p-mb-1">
+                                <ng-container *ngIf="treatment.diagnose">
+                                    <span><strong>{{'DIAGNOSE'|translate}} :&nbsp;</strong></span>
+                                    <span>{{treatment.diagnose.name}} </span>
+                                </ng-container>
+                            </div>
+                            <div class="p-col p-pb-0 p-mb-1">
+                                <ng-container *ngIf="treatment.description">
+                                    <span><strong>{{'DESCRIPTION'|translate}} :&nbsp;</strong></span>
+                                    <span>{{treatment.description}} </span>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <hr *ngIf="treatment.treatmentDentalServices.length > 0" style="margin-top: 0px;" />
+                        <div class="p-grid" *ngFor="let ts of treatment.treatmentDentalServices">
+                            <label class="p-col p-pb-0 p-mb-1">{{ts.dentalService.name}}</label>
+                            <label class="p-col p-pb-0 p-mb-1">{{ getDentalServicePrice(j, ts.dentalService) |number}}
+                                {{'UZS'|translate}}</label>
+                        </div>
+                    </div>
+                    <hr *ngIf="recept.receptDentalServices.length > 0" style="margin-top: 0px;" />
+                    <div *ngFor="let prs of recept.receptDentalServices; let i = index">
+                        <div class="p-grid">
+                            <label class="p-col p-pb-0 p-mb-1">{{prs.dentalService.name}}</label>
+                            <label class="p-col p-pb-0 p-mb-1">{{getDentalServicePrice(j, prs.dentalService)|number}}
+                                {{'UZS'|translate}}</label>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 0px;" />
+                    <div class="p-grid p-pl-0 p-mt-0">
+                        <label class="p-col p-pb-0 p-mb-1"><strong>{{'TOTAL'|translate}}</strong></label>
+                        <label class="p-col p-pb-0 p-mb-1"><strong>{{getTotalPrice(j)|number}}
+                                {{'UZS'|translate}}</strong></label>
+                    </div>
+                    <div class="p-grid p-pl-0 p-mt-0">
+                        <label class="p-col p-pb-0 p-mb-1"><strong>{{'RECEPT_DESCRIPTION'|translate}} :&nbsp;
+                                {{recept?.description}}</strong></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CLOSE'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="close()"></button>
+    </ng-template>
+</p-dialog>

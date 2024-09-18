@@ -1,0 +1,72 @@
+<div class="p-grid">
+    <div class="p-col-12">
+        <div class="card">
+            <div class="p-fluid">
+                <h6>{{'PATIENT'|translate}} : {{recept?.patient.lastName}} {{recept?.patient.firstName}}
+                    {{recept?.patient.patronymic}}</h6>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="p-grid">
+    <div class="p-col p-pb-0 p-mb-1">
+        <div class="card">
+            <app-teeth-control #teethCtrl [teeth]="currentTeeth" [editMode]="false"></app-teeth-control>
+        </div>
+    </div>
+</div>
+<div class="p-grid">
+    <div class="p-col p-pb-0 p-mb-1">
+        <div class="card">
+            <h6 style="margin: 0px;">{{'PROVIDED_SERVICES'|translate}}</h6>
+            <div class="p-fluid">
+                <div *ngFor="let treatment of recept?.treatments; let i = index">
+                    <div class="p-grid p-pl-0 p-mt-0">
+                        <div class="p-col p-pb-0 p-mb-1">
+                            <span><strong>{{'TREATED_TOOTH'|translate}} :&nbsp;</strong></span>
+                            <span class="box p-shadow-1"
+                                style="margin: 1px; padding-left: 3px; padding-right: 3px;">{{treatment.patientTooth.tooth.name}}</span>
+                        </div>
+                        <div class="p-col p-pb-0 p-mb-1">
+                            <ng-container *ngIf="treatment.diagnose">
+                                <span><strong>{{'DIAGNOSE'|translate}} :&nbsp;</strong></span>
+                                <span>{{treatment.diagnose.name}} </span>
+                            </ng-container>
+                        </div>
+                        <div class="p-col p-pb-0 p-mb-1">
+                            <ng-container *ngIf="treatment.description">
+                                <span><strong>{{'DESCRIPTION'|translate}} :&nbsp;</strong></span>
+                                <span>{{treatment.description}} </span>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <hr style="margin-top: 0px;" />
+                    <div class="p-grid" *ngFor="let ts of treatment.treatmentDentalServices">
+                        <label class="p-col p-pb-0 p-mb-1">{{ts.dentalService.name}}</label>
+                        <label class="p-col p-pb-0 p-mb-1">{{ getDentalServicePrice(ts.dentalService) |number}}
+                            {{'UZS'|translate}}</label>
+                    </div>
+                </div>
+                <hr *ngIf="recept?.receptDentalServices.length > 0" style="margin-top: 0px;" />
+                <div *ngFor="let prs of recept?.receptDentalServices; let i = index">
+                    <div class="p-grid">
+                        <label class="p-col p-pb-0 p-mb-1">{{prs.dentalService.name}}</label>
+                        <label class="p-col p-pb-0 p-mb-1">{{getDentalServicePrice(prs.dentalService)|number}}
+                            {{'UZS'|translate}}</label>
+                    </div>
+                </div>
+                <hr style="margin-top: 0px;" />
+                <div class="p-grid p-pl-0 p-mt-0">
+                    <label class="p-col p-pb-0 p-mb-1"><strong>{{'TOTAL'|translate}}</strong></label>
+                    <label class="p-col p-pb-0 p-mb-1"><strong>{{getTotalPrice()|number}}
+                            {{'UZS'|translate}}</strong></label>
+                </div>
+                <div class="p-grid p-pl-0 p-mt-0">
+                    <label class="p-col p-pb-0 p-mb-1"><strong>{{'RECEPT_DESCRIPTION'|translate}} :&nbsp;
+                            {{recept?.description}}</strong></label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

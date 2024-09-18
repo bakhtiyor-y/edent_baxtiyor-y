@@ -1,0 +1,152 @@
+<p-dialog [(visible)]="isOpen" [style]="{width: '700px'}" header="{{ isNew ? ('ADD'|translate):('EDIT'|translate) }}" [modal]="true"
+    styleClass="p-fluid" (onHide)="close()">
+    <ng-template pTemplate="content">
+        <form [formGroup]="editForm">
+            <div class="p-formgrid p-grid">
+                <div class="p-field p-col-4">
+                    <label for="lastName">{{ 'LAST_NAME' | translate }}</label>
+                    <input type="text" pInputText id="lastName" formControlName="lastName" required autofocus />
+                    <small class="p-error block"
+                        *ngIf="editForm.get('lastName').invalid && (editForm.get('lastName').dirty || editForm.get('lastName').touched)">{{
+                        'LAST_NAME_IS_REQUIRED' | translate
+                        }}</small>
+                </div>
+                <div class="p-field p-col-4">
+                    <label for="firstName">{{ 'FIRST_NAME' | translate }}</label>
+                    <input type="text" pInputText id="firstName" formControlName="firstName" required />
+                    <small class="p-error block"
+                        *ngIf="editForm.get('firstName').invalid && (editForm.get('firstName').dirty || editForm.get('firstName').touched)">{{
+                        'FIRST_NAME_IS_REQUIRED'|translate }}</small>
+                </div>
+                <div class="p-field p-col-4">
+                    <label for="patronymic">{{ 'PATRONYMIC' | translate }}</label>
+                    <input type="text" pInputText id="patronymic" formControlName="patronymic" />
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="specialization">{{ 'SPECIALIZATION' | translate }}</label>
+                <p-dropdown [options]="specializations" inputId="specialization"
+                    placeholder="{{'SELECT_SPECIALIZATION'|translate}}" formControlName="specializationId"
+                    optionLabel="name" optionValue="id" required>
+                </p-dropdown>
+                <small class="p-error block"
+                    *ngIf="editForm.get('specializationId').invalid && (editForm.get('specializationId').dirty || editForm.get('specializationId').touched)">{{
+                    'SPECIALIZATION_IS_REQUIRED' |
+                    translate }}</small>
+            </div>
+            <div class="p-formgrid p-grid">
+                <div class="p-field p-col-4">
+                    <label for="birthDate">{{ 'BIRTH_DATE' | translate }}</label>
+                    <p-calendar formControlName="birthDate" dateFormat="dd.mm.yy" [monthNavigator]="true"
+                        [yearNavigator]="true" yearRange="1930:2030" required></p-calendar>
+                    <small class="p-error block"
+                        *ngIf="editForm.get('birthDate').invalid && (editForm.get('birthDate').dirty || editForm.get('birthDate').touched)">{{
+                        'BIRTH_DATE_IS_REQUIRED' |
+                        translate }}</small>
+                </div>
+                <div class="p-field  p-col-4">
+                    <label for="phoneNumber">{{ 'PHONE_NUMBER' | translate }}</label>
+                    <p-inputMask inputId="phoneNumber" formControlName="phoneNumber" mask="99 999 99 99" required>
+                    </p-inputMask>
+                    <small class="p-error block"
+                        *ngIf="editForm.get('phoneNumber').invalid && (editForm.get('phoneNumber').dirty || editForm.get('phoneNumber').touched)">{{
+                        'PHONE_NUMBER_IS_REQUIRED' |
+                        translate }}</small>
+                </div>
+                <div class="p-field  p-col-4">
+                    <label for="email">{{ 'EMAIL' | translate }}</label>
+                    <input type="email" pInputText id="email" [pKeyFilter]="emailRegex" formControlName="email"
+                        required />
+                    <small class="p-error block"
+                        *ngIf="editForm.get('email').invalid && (editForm.get('email').dirty || editForm.get('email').touched)">{{
+                        'EMAIL_IS_REQUIRED' | translate
+                        }}</small>
+                </div>
+            </div>
+            <div class="p-formgrid p-grid">
+                <div class="p-field p-col-4">
+                    <label for="gender">{{'GENDER'|translate}}</label>
+                    <p-dropdown [options]="genders" placeholder="{{'SELECT_GENDER'|translate }}"
+                        inputId="gender" formControlName="gender" optionLabel="text" optionValue="value" required>
+                    </p-dropdown>
+                </div>
+                <div class="p-field p-col-4">
+                    <label for="email">{{ 'DOCTOR_DENTAL_CHAIRS' | translate }}</label>
+                    <p-multiSelect [options]="dentalChairs" formControlName="dentalChairs"
+                        defaultLabel="{{'SELECT_DOCTOR_DENTAL_CHAIRS'|translate}}" optionLabel="name" optionValue="id" [filter]="false">
+                    </p-multiSelect>
+                </div>
+                <div class="p-field p-col-4">
+                    <h6>{{ 'IS_ACTIVE' | translate }}</h6>
+                    <p-inputSwitch formControlName="isActive"></p-inputSwitch>
+                </div>
+            </div>
+            <div class="p-formgrid p-grid">
+                <div class="p-field p-col-6">
+                    <label for="term">{{ 'TERM' | translate }}</label>
+                    <p-dropdown [options]="terms" inputId="term" formControlName="termId" optionLabel="name"
+                        optionValue="id" required>
+                    </p-dropdown>
+                    <small class="p-error block"
+                        *ngIf="editForm.get('termId').invalid && (editForm.get('termId').dirty || editForm.get('termId').touched)">{{
+                        'TERM_IS_REQUIRED' | translate
+                        }}</small>
+                </div>
+                <div class="p-field p-col-6">
+                    <label for="termValue">{{ 'TERM_VALUE'|translate }}</label>
+                    <p-inputNumber name="termValue" formControlName="termValue" required></p-inputNumber>
+                    <small class="p-error block"
+                        *ngIf="editForm.get('termValue').invalid && (editForm.get('termValue').dirty || editForm.get('termValue').touched)">{{
+                        'TERM_VALUE_IS_REQUIRED' |
+                        translate }}</small>
+                </div>
+            </div>
+            <div class="p-formgrid p-grid">
+                <div class="p-field p-col-4">
+                    <label for="country">{{ 'COUNTRY' | translate }}</label>
+                    <p-dropdown [options]="countries" inputId="country" name="selectedCountry"
+                        [(ngModel)]="selectedCountryId" optionLabel="name" optionValue="id"
+                        (onChange)="onCountryChange($event.value)" [ngModelOptions]="{standalone: true}"
+                        placeholder="{{'SELECT_COUNTRY'|translate}}">
+                    </p-dropdown>
+                </div>
+                <div class="p-field p-col-4">
+                    <label for="region">{{ 'REGION'|translate }}</label>
+                    <p-dropdown [options]="regions" inputId="region" name="selectedRegion"
+                        [(ngModel)]="selectedRegionId" optionLabel="name" optionValue="id"
+                        (onChange)="onRegionChange($event.value)" [ngModelOptions]="{standalone: true}"
+                        placeholder="{{'SELECT_REGION'|translate}}">
+                    </p-dropdown>
+                </div>
+                <div class="p-field p-col-4">
+                    <label for="city">{{ 'CITY' | translate }}</label>
+                    <p-dropdown [options]="cities" inputId="city" placeholder="{{'SELECT_CITY'|translate }}"
+                        formControlName="cityId" optionLabel="name" optionValue="id" required></p-dropdown>
+                    <small class="p-error block"
+                        *ngIf="editForm.get('cityId').invalid && (editForm.get('cityId').dirty || editForm.get('cityId').touched)">{{
+                        'CITY_IS_REQUIRED' | translate
+                        }}</small>
+                </div>
+            </div>
+            <div class="p-field">
+                <label for="addressLine1">{{ 'ADDRESS_LINE_1' | translate }}</label>
+                <input type="text" pInputText id="addressLine1" formControlName="addressLine1" required />
+                <small class="p-error block"
+                    *ngIf="editForm.get('addressLine1').invalid && (editForm.get('addressLine1').dirty || editForm.get('addressLine1').touched)">{{
+                    'ADDRESS_LINE_1_IS_REQUIRED' |
+                    translate }}</small>
+            </div>
+            <div class="p-field">
+                <label for="addressLine2">{{ 'ADDRESS_LINE_2' | translate }}</label>
+                <input type="text" pInputText id="addressLine2" formControlName="addressLine2" />
+            </div>
+        </form>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="{{'CANCEL'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="close()"></button>
+        <button pButton pRipple label="{{'SAVE'|translate}}" icon="pi pi-check" class="p-button-text"
+            (click)="save()" [disabled]="!editForm.valid"></button>
+    </ng-template>
+</p-dialog>

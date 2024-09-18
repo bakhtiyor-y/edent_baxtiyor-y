@@ -1,0 +1,98 @@
+[
+  {
+    "name": "Длина",
+    "code": "д",
+    "measurementUnits": [
+      {
+        "name": "миллиметр",
+        "code": "мм",
+        "default": false,
+        "multiplicity": 1
+      },
+      {
+        "name": "сантиментр",
+        "code": "см",
+        "default": true,
+        "multiplicity": 10
+      },
+      {
+        "name": "дециметр",
+        "code": "дм",
+        "default": false,
+        "multiplicity": 100
+      },
+      {
+        "name": "метр",
+        "code": "м",
+        "default": false,
+        "multiplicity": 1000
+      }
+    ]
+  },
+  {
+    "name": "Объём",
+    "code": "о",
+    "measurementUnits": [
+      {
+        "name": "миллилитр",
+        "code": "мл",
+        "default": false,
+        "multiplicity": 1
+      },
+      {
+        "name": "литр",
+        "code": "л",
+        "default": true,
+        "multiplicity": 1000
+      }
+    ]
+  },
+  {
+    "name": "Количество",
+    "code": "к",
+    "measurementUnits": [
+      {
+        "name": "штук",
+        "code": "шт",
+        "default": true,
+        "multiplicity": 1
+      },
+      {
+        "name": "пара",
+        "code": "п",
+        "default": false,
+        "multiplicity": 2
+      }
+    ]
+  },
+  {
+    "name": "Вес",
+    "code": "в",
+    "measurementUnits": [
+      {
+        "name": "миллиграмм",
+        "code": "мг",
+        "default": false,
+        "multiplicity": 1
+      },
+      {
+        "name": "грамм",
+        "code": "г",
+        "default": true,
+        "multiplicity": 1000
+      },
+      {
+        "name": "килограмм",
+        "code": "кг",
+        "default": false,
+        "multiplicity": 1000000
+      },
+      {
+        "name": "тонна",
+        "code": "т",
+        "default": false,
+        "multiplicity": 1000000000
+      }
+    ]
+  }
+]

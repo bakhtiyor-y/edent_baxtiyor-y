@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+
+  api:
+    image: registry.gitlab.com/devhub-uz/devhub.registry/edent-api:${APPLICATION_VERSION}
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=${DB_HOST};Database=EdentDb;Port=6432;User Id=postgres;Password=${DB_PASSWORD};
+    extra_hosts:
+      - "localhost:host-gateway"
+    networks:
+      - edent_net
+    # swarm
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+        delay: 20s
+      rollback_config:
+        parallelism: 0
+        order: stop-first
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+    healthcheck:
+      test: curl -sS http://edent_api/health/ready || echo 1
+      interval: 30s
+      timeout: 3s
+      retries: 12
+      
+networks:
+  edent_net:
