@@ -88,14 +88,14 @@ namespace Edent.Api.Controllers
                 .Where(w => w.DoctorId == doctor.Id)
                 .Select(s => s.DentalChair)
                 .ToList();
-
+         
             if (chairs == null || chairs.Count == 0)
             {
                 chairs = _dentalChairService.GetAll().ToList();
             }
 
             var appointments = _appointmentService.Query()
-                .Where(w => appointmentDate.Date == w.AppointmentDate.Date)
+                .Where(w => w.AppointmentDate == appointmentDate)
                 .ToList();
 
             List<AppointmentDentalChairViewModel> result = new();
@@ -105,7 +105,7 @@ namespace Edent.Api.Controllers
                 var viewModel = new AppointmentDentalChairViewModel();
                 viewModel.Id = item.Id;
                 viewModel.Name = item.Name;
-                viewModel.IsBusy = appointments.Any(a => a.AppointmentDate == appointmentDate);
+                viewModel.IsBusy = appointments.Any(a => a.DentalChairId == item.Id);
                 viewModel.Description = viewModel.IsBusy ? "Занято" : "Свободно";
                 result.Add(viewModel);
             }
@@ -117,7 +117,6 @@ namespace Edent.Api.Controllers
         public virtual IActionResult GetByDate(int doctorId, long date)
         {
             var appointmentDate = DateTimeOffset.FromUnixTimeMilliseconds(date);
-
             var chairs = _doctorDentalChairService
                 .Query()
                 .Include(i => i.DentalChair)

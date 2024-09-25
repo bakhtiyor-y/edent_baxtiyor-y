@@ -16,5 +16,6 @@ export * from './inventory-income-item.model';
 export * from './doctor-schedule.model';
 export * from './patient-tooth.model';
 export * from './recept-dental-service.model';
+export * from './appointment-manage-with-last.model';
 
 

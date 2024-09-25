@@ -49,7 +49,7 @@ export class AppointmentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loadEvents();
+    this.loadEvents();    
     this.options = {
       height: '100%',
       minTime: "07:00",
@@ -109,9 +109,11 @@ export class AppointmentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public loadEvents(date: Date = null) {
+
     if (!date) {
       date = this.selectedDate;
     }
+  
     const unixTime = new Date(date).getTime();
 
     this.apiService.get(`api/Appointment/GetDoctorAppointments?date=${unixTime}`)
@@ -134,8 +136,10 @@ export class AppointmentComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.viewMode === 'month') {
         const newDate = new Date(this.currentDate);
         newDate.setMonth(newDate.getMonth() + 1);
+        
         this.currentDate = newDate;
         this.loadEvents(this.currentDate);
+        
       }
       else if (this.viewMode === 'week') {
         const currentMonth = this.currentDate.getMonth();

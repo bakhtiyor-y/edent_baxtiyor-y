@@ -137,10 +137,14 @@ export class DoctorsComponent implements OnInit {
           this.doctors.push(item);
         });
         this.totalRecords = th.total;
+        console.log('th ', th);
       }).catch(error => {
       }).finally(() => {
         this.loading = false;
       });
+
+      console.log('this.doctors ', this.doctors);
+      
   }
   public onPageChange(event) {
     this.loading = true;

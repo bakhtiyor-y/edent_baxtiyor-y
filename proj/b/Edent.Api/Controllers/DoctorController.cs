@@ -312,6 +312,10 @@ namespace Edent.Api.Controllers
                         scheduleEventModel = GetShcedule(jointAppointment);
                     }
                     scheduleEventModel.Starting = currentAppointmentDate;
+                    
+
+
+
                     doctorSchedule.Events.Add(scheduleEventModel);
                 }
                 doctorSchedules.Add(doctorSchedule);
@@ -330,6 +334,12 @@ namespace Edent.Api.Controllers
                 scheduleEventModel.Name = $"{appointment.Patient.LastName} {appointment.Patient.FirstName} {appointment.Patient.Patronymic}";
                 scheduleEventModel.AppointmentId = appointment.Id;
                 scheduleEventModel.AppointmentStatus = appointment.AppointmentStatus;
+
+
+                //var currentAppointmentDateLast = new DateTimeOffset(appointment.AppointmentDateLast.Year, appointment.AppointmentDateLast.Month, appointment.AppointmentDateLast.Day, appointment.AppointmentDateLast.Hour, appointment.AppointmentDateLast.Minute, 0, TimeSpan.Zero);
+                //scheduleEventModel.Last = currentAppointmentDateLast.ToUniversalTime();
+                DateTimeOffset dateTimeOffset1 = appointment.AppointmentDateLast.ToUniversalTime();
+                scheduleEventModel.Last = dateTimeOffset1;
             }
             else
             {

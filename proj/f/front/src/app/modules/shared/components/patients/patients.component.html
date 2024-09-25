@@ -67,10 +67,8 @@
                 </ng-template>
             </p-table>
         </div>
-        <app-patient-edit-form [isOpen]="editDialog" [model]="editItem" (saved)="onSaved($event)" (closed)="onClosed()">
-        </app-patient-edit-form>
-        <app-patient-view [isOpen]="viewDialog" [model]="patientViewModel" (closed)="onViewClosed()">
-        </app-patient-view>
+        <app-patient-edit-form [isOpen]="editDialog" [model]="editItem" (saved)="onSaved($event)" (closed)="onClosed()"></app-patient-edit-form>
+        <app-patient-view [isOpen]="viewDialog" [model]="patientViewModel" (closed)="onViewClosed()"></app-patient-view>
         <p-confirmDialog [style]="{width: '700px'}"></p-confirmDialog>
     </div>
 </div>

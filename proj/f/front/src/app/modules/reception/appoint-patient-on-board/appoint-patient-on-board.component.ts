@@ -1,13 +1,16 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { MessageService } from 'primeng/api';
 import { AppointmentStatus } from 'src/app/core/enums';
-import { AppointmentManageModel } from 'src/app/core/models/common';
+import { AppointmentManageWithLastModel } from 'src/app/core/models/common';
+
 import { CityModel, CountryModel, PartnerModel, RegionModel } from 'src/app/core/models/manuals';
 import { DoctorModel, PatientManageModel } from 'src/app/core/models/user-management';
 import { ApiService } from 'src/app/core/services';
 import { EnumService } from 'src/app/core/services/enum.service';
+import { ScheduleEventModel } from 'src/app/core/models/common';
+import { getTimeString } from 'src/app/core/util/get-date-from-calendar';
 
 @Component({
   selector: 'app-appoint-patient-on-board',
@@ -15,6 +18,8 @@ import { EnumService } from 'src/app/core/services/enum.service';
   styleUrls: ['./appoint-patient-on-board.component.scss']
 })
 export class AppointPatientOnBoardComponent implements OnInit {
+  // startTime : FormControl = new FormControl();
+ 
 
   public emailRegex = '^\\w+[\\w-\\.]*\\@\\w+((-\\w+)|(\\w*))\\.[a-z]{2,3}$';
   public editForm = this.fb.group({
@@ -32,8 +37,13 @@ export class AppointPatientOnBoardComponent implements OnInit {
     addressLine2: this.fb.control(''),
   });
 
-  public appointmentId;
+  public scheduleEvents: ScheduleEventModel[] = [];
+  public selectedEvent: ScheduleEventModel;
+  public startTimeR: any;
 
+
+
+  public appointmentId;
   public countries: CountryModel[] = [];
   public regions: RegionModel[] = [];
   public cities: CityModel[] = [];
@@ -52,9 +62,11 @@ export class AppointPatientOnBoardComponent implements OnInit {
   public selectedDoctors: DoctorModel[] = [];
   public doctors: DoctorModel[] = [];
   public appointmentDate: Date;
+  public appointmentDateLast: Date = new Date();
   public viewDate: Date;
   public genders: any[] = [];
   public ageTypes: any[] = [];
+  
 
 
   @Input() public doctor: any;
@@ -63,80 +75,44 @@ export class AppointPatientOnBoardComponent implements OnInit {
   @Input() public set selectedAppointmentDate(date: Date) {
     if (date) {
       this.appointmentDate = date;
+      
+      this.startTimeR = `${getTimeString(new Date(date))}`;      
+      
       this.viewDate = date;
       const unixTime = date.getTime();
       this.apiService.get(`api/DentalChair/GetDoctorDentalChairsByDate?doctorId=${this.doctor.doctorId}&date=${unixTime}`)
         .toPromise()
-        .then(th => {
+        .then(th => {          
+          console.log('==> ', th);
+          
           this.dentalChairs = th;
         }).catch(error => { })
         .finally(() => { });
+
+        this.getAppointmentTimes(unixTime);
     }
   }
 
-  @Output() public closed: EventEmitter<any> = new EventEmitter<any>();
-  @Output() public appointed: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('patientForm') patientForm: ElementRef;
 
-  constructor(private fb: FormBuilder,
-    private apiService: ApiService,
-    private messageService: MessageService,
-    private translate: TranslateService,
-    private enumService: EnumService) { }
 
-  ngOnInit(): void {
-    console.log("ngONINIT");
-    
-    this.genders = this.enumService.getGenders();
-    this.ageTypes = this.enumService.getPatientAgeTypes();
-    this.apiService.get('api/Partner/GetAll')
+
+  public getAppointmentTimes(unixTime) {
+    this.scheduleEvents = [];
+    this.apiService.get(`api/Schedule/GetDoctorSchedule?doctorId=${this.doctor.doctorId}&date=${unixTime}`)
       .toPromise()
       .then(th => {
-        this.partners = th;
-      })
-      .catch(error => { })
-      .finally(() => { });
-
-    this.apiService.get('api/Country/GetAll')
-      .toPromise()
-      .then(th => {
-        this.countries = th;
-        this.selectedCountryId = this.countries.find(f => f.name.toUpperCase() === 'УЗБЕКИСТАН')?.id;
-        this.onCountryChange(this.selectedCountryId);
+        th.forEach(item => {
+          item.startingText = `${getTimeString(new Date(item.starting))} - ${item.name}`;
+          this.scheduleEvents.push(item);
+        });
       }).catch(error => { })
-      .finally(() => { });
-
-      console.log('+++++++++ ', this.doctor);
+      .finally(() => { });    
       
   }
 
-  public onCountryChange(e) {
-    if (e) {
-      this.apiService.get('api/Region/GetByCountry?countryId=' + e)
-        .toPromise()
-        .then(th => {
-          this.regions = th;
-          if (this.selectedRegionId === 0) {
-            this.selectedRegionId = this.regions[0].id;
-          }
-          this.onRegionChange(this.selectedRegionId);
-        })
-        .catch(error => { })
-        .finally(() => { });
-    }
-  }
-
-  public onRegionChange(e) {
-    if (e) {
-      this.apiService.get('api/City/GetByRegion?regionId=' + e)
-        .toPromise()
-        .then(th => {
-          this.cities = th;
-        })
-        .catch(error => { })
-        .finally(() => { });
-    }
+  public onAppointmentTimeChange(e: ScheduleEventModel) {
+    this.appointmentDateLast = new Date(e.starting)
   }
 
   public save() {
@@ -144,8 +120,9 @@ export class AppointPatientOnBoardComponent implements OnInit {
       this.messageService.add({ severity: 'error', summary: this.translate.instant('ERROR'), detail: this.translate.instant('DENTAL_CHAIR_NOT_SELECTED'), life: 3000 });
       return;
     }
-    const appointment = { id: 0 } as AppointmentManageModel;
+    const appointment = { id: 0 } as AppointmentManageWithLastModel;
     appointment.appointmentDate = new Date(this.appointmentDate);
+    appointment.appointmentDateLast = this.appointmentDateLast;
     appointment.appointmentStatus = AppointmentStatus.Appointed;
     appointment.description = this.description;
     appointment.partnerId = this.selectedPartner?.id;
@@ -176,6 +153,8 @@ export class AppointPatientOnBoardComponent implements OnInit {
       .toPromise().then(th => {
         this.messageService.add({ severity: 'success', summary: this.translate.instant('SUCCESSFUL'), detail: this.translate.instant('ENTRY_CREATED'), life: 3000 });
         this.selectedDoctors = [];
+        console.log('wwww eee ', th);
+        
         this.appointed.emit();
       })
       .catch(error => {
@@ -187,6 +166,75 @@ export class AppointPatientOnBoardComponent implements OnInit {
       })
       .finally(() => { });
   }
+
+
+
+
+
+
+
+  @Output() public closed: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public appointed: EventEmitter<any> = new EventEmitter<any>();
+
+  @ViewChild('patientForm') patientForm: ElementRef;
+
+  constructor(private fb: FormBuilder,
+    private apiService: ApiService,
+    private messageService: MessageService,
+    private translate: TranslateService,
+    private enumService: EnumService) { }
+
+  ngOnInit(): void {    
+    this.genders = this.enumService.getGenders();
+    this.ageTypes = this.enumService.getPatientAgeTypes();
+    this.apiService.get('api/Partner/GetAll')
+      .toPromise()
+      .then(th => {
+        this.partners = th;
+      })
+      .catch(error => { })
+      .finally(() => { });
+
+    this.apiService.get('api/Country/GetAll')
+      .toPromise()
+      .then(th => {
+        this.countries = th;
+        this.selectedCountryId = this.countries.find(f => f.name.toUpperCase() === 'УЗБЕКИСТАН')?.id;
+        this.onCountryChange(this.selectedCountryId);
+      }).catch(error => { })
+      .finally(() => { });
+
+  }
+
+  public onCountryChange(e) {
+    if (e) {
+      this.apiService.get('api/Region/GetByCountry?countryId=' + e)
+        .toPromise()
+        .then(th => {
+          this.regions = th;
+          if (this.selectedRegionId === 0) {
+            this.selectedRegionId = this.regions[0].id;
+          }
+          this.onRegionChange(this.selectedRegionId);
+        })
+        .catch(error => { })
+        .finally(() => { });
+    }
+  }
+
+  public onRegionChange(e) {
+    if (e) {
+      this.apiService.get('api/City/GetByRegion?regionId=' + e)
+        .toPromise()
+        .then(th => {
+          this.cities = th;
+        })
+        .catch(error => { })
+        .finally(() => { });
+    }
+  }
+
+ 
 
   public cancel() {
     this.isPatientEditMode = false;
@@ -236,4 +284,9 @@ export class AppointPatientOnBoardComponent implements OnInit {
       .catch(error => { })
       .finally(() => { });
   }
+
+
+
+ 
+  
 }

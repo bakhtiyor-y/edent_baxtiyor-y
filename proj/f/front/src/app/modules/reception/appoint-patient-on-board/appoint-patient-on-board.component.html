@@ -11,7 +11,7 @@
                                     <span>{{ 'DOCTOR' | translate }}: </span>
                                     <span>{{ doctor.name }}, </span>
                                     <span>{{ 'APPOINTMENT_DATE' | translate }}: </span>
-                                    <span>{{ viewDate | localizedDate:'dd.MM.yyyy HH:mm'}}</span>
+                                    <span>{{ viewDate | localizedDate:'dd.MM.yyyy HH:mm'}}</span>                                    
                                 </h5>
                             </div>
                         </div>
@@ -33,6 +33,40 @@
                                 </p-dropdown>
                             </div>
                         </div>
+
+                        <!-- ============================================== -->
+
+
+                        <div class="p-formgrid p-grid">
+
+                            <div class="p-field p-col-6">
+                                <label for="startTime">{{ 'APPOINTMENT_TIME_START' | translate }}</label>
+                                <input [disabled]="true" type="text" id="startTime" pInputText [(ngModel)]="startTimeR"/>
+                            </div>
+
+
+                            <div class="p-field p-col-6">
+                                <label for="appointmentTime">{{ 'APPOINTMENT_TIME_END' | translate }}</label>
+                                <p-dropdown 
+                                    [options]="scheduleEvents" 
+                                    placeholder="{{'SELECT_APPOINTMENT_TIME'|translate }}"
+                                    [(ngModel)]="selectedEvent" 
+                                    optionLabel="startingText" 
+                                    optionDisabled="isBusy"
+                                    (onChange)="onAppointmentTimeChange($event.value)">
+                                </p-dropdown>
+                            </div>
+
+
+
+
+                        </div>
+
+
+                        <!-- ============================================== -->
+
+
+                        
                         <div class="p-formgrid p-grid">
                             <div class="p-field p-col-9">
                                 <label for="lastName">{{ 'SEARCH_PATIENT' | translate }}</label>

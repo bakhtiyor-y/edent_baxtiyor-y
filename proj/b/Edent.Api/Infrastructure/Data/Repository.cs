@@ -13,18 +13,18 @@ namespace Edent.Api.Infrastructure.Data
 
         private readonly ApplicationDbContext _context;
 
+        public Repository(ApplicationDbContext context)
+        {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
+
         public ApplicationDbContext Context
         {
             get
             {
                 return _context;
             }
-        }
-
-        public Repository(ApplicationDbContext context)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-        }
+        }        
 
         public DbSet<TEntity> Query()
         {

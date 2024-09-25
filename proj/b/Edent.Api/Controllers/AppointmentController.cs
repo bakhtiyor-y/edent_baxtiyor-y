@@ -111,6 +111,7 @@ namespace Edent.Api.Controllers
         [Authorize(Roles = "doctor, admin")]
         public IActionResult GetDoctorAppointments(long date)
         {
+            
             var appointmentDate = DateTimeOffset.FromUnixTimeMilliseconds(date);
             var userId = _userResolverService.CurrentUserId.HasValue ? _userResolverService.CurrentUserId.Value : 0;
             if (userId == 0)
@@ -244,6 +245,7 @@ namespace Edent.Api.Controllers
                 PartnerId = viewModel.PartnerId,
                 AppointmentStatus = viewModel.AppointmentStatus,
                 AppointmentDate = viewModel.AppointmentDate,
+                AppointmentDateLast = viewModel.AppointmentDateLast,
                 DentalChairId = viewModel.DentalChairId
             };
             foreach (var dId in viewModel.JointDoctors)

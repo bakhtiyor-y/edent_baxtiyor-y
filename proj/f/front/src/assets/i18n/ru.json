@@ -26,6 +26,8 @@
 	"APPOINTMENT_DATE_IS_REQUIRED": "Дата приема объязательное поле",
 	"APPOINTMENT_STATUS": "Статус приема",
 	"APPOINTMENT_TIME": "Время приема",
+	"APPOINTMENT_TIME_START": "Начало приема",
+	"APPOINTMENT_TIME_END": "Конец приема",
 	"APPOINT_CREATED": "Прием создан",
 	"APP_SETTINGS": "Настройки",
 	"ARE_YOU_SURE_TO_DELETE_SELECTED_ENTRIES": "Вы действительно хотите удалить выбранные записи?",

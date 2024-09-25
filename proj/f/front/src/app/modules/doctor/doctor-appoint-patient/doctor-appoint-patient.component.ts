@@ -19,14 +19,14 @@ import { getDateFromCalendar, getTimeString } from 'src/app/core/util/get-date-f
 export class DoctorAppointPatientComponent implements OnInit {
 
   @Input() public isOpen: boolean;
-  @Input() public set selectedDate(date: Date) {
-    
+  @Input() public set selectedDate(date: Date) {   
     
     const unixTime = new Date(date).getTime();
     this.scheduleEvents = [];
     this.apiService.get(`api/Schedule/GetScheduleByDate?date=${unixTime}`)
       .toPromise()
-      .then(th => {
+      .then(th => {    
+        
         th.forEach(item => {
           item.startingText = `${getTimeString(new Date(item.starting))} - ${item.name}`;
           this.scheduleEvents.push(item);
@@ -35,7 +35,7 @@ export class DoctorAppointPatientComponent implements OnInit {
       .catch(error => { })
       .finally(() => { });
 
-    this.appointmentDate = date;
+    this.appointmentDate = date;        
   }
 
 
@@ -109,11 +109,10 @@ export class DoctorAppointPatientComponent implements OnInit {
         this.onCountryChange(this.selectedCountryId);
       }).catch(error => { })
       .finally(() => { });
-
-      console.log('*********-> ', this.selectedDate);
   }
 
   public onCountryChange(e) {
+    
     if (e) {
       this.apiService.get('api/Region/GetByCountry?countryId=' + e)
         .toPromise()
@@ -147,6 +146,8 @@ export class DoctorAppointPatientComponent implements OnInit {
       .toPromise()
       .then(th => {
         this.dentalChairs = th;
+        console.log('onAppointmentTimeChange get dentalChairs ', this.dentalChairs);
+        
       }).catch(error => { })
       .finally(() => { });
   }

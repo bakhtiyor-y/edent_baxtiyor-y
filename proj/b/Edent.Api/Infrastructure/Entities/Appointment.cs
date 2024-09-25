@@ -17,6 +17,7 @@ namespace Edent.Api.Infrastructure.Entities
         public int? EmployeeId { get; set; }
         public int? PartnerId { get; set; }
         public DateTimeOffset AppointmentDate { get; set; }
+        public DateTimeOffset AppointmentDateLast { get; set; }
         public AppointmentStatus AppointmentStatus { get; set; }
 
         [StringLength(1024)]

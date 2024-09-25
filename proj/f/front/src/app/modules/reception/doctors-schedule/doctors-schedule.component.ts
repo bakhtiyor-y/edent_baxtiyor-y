@@ -35,24 +35,26 @@ export class DoctorsScheduleComponent implements OnInit {
   }
 
   public loadDoctors(selectedDate: Date) {
-    const unixTime = selectedDate.getTime().valueOf();    
+    const unixTime = selectedDate.getTime().valueOf(); 
     this.apiService.get(`api/Doctor/GetDoctorsWithSchedule?date=${unixTime}`)
       .toPromise()
       .then(th => {
+        console.log('ona-th',th);        
         this.doctors = th as DoctorScheduleModel[];
         let minDuration: number = 1440;
         let maxDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), 0, 0, 0);
         let minDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate(), 23, 59, 59);
+  
         this.doctors.forEach(d => {
           if (d.admissionDuration < minDuration) {
             minDuration = d.admissionDuration;
           }
           d.events.forEach(e => {
             const std = new Date(e.starting);
-            if (std > maxDate) {
+            if (std > maxDate) {   
               maxDate = new Date(std);
             }
-            if (std < minDate) {
+            if (std < minDate) {              
               minDate = new Date(std);
             }
           });
@@ -60,13 +62,15 @@ export class DoctorsScheduleComponent implements OnInit {
 
         const ers = [];
         let nextDate = new Date(minDate);
-        while (nextDate < maxDate) {
+        // while (nextDate < maxDate) {
+        while (nextDate <= maxDate) {
           ers.push({ time: getTimeString(nextDate), duration: minDuration });
           nextDate = new Date(nextDate.getTime() + minDuration * 60000);
         }
-        this.items = ers;
-       
-        
+        // items[] - ish kunining maxDate va minDate chegaralari oraligini duration intervallarini arrayi        
+        // {time: '09:00', duration: 30},{time: '09:30', duration: 30}....
+        this.items = ers;  
+        // console.log('ona-items', this.items);                     
       });
   }
 
@@ -91,7 +95,7 @@ export class DoctorsScheduleComponent implements OnInit {
     this.loadDoctors(this.selectedDate);
   }
 
-  appointPatient(doctor, event) {
+  appointPatient(doctor, event) {    
     this.appointDialog = true;
     this.selectedDoctor = doctor;
     this.selectedAppointmentTime = new Date(event.starting);
@@ -100,7 +104,7 @@ export class DoctorsScheduleComponent implements OnInit {
   editAppointment(appointmentId) {
     this.apiService.get('api/appointment/GetById?id=' + appointmentId)
       .toPromise()
-      .then(th => {
+      .then(th => {       
         this.selectedAppointment = th;
         this.selectedAppointment.appointmentDate = new Date(th.appointmentDate);
         this.editDialog = true;
@@ -143,14 +147,15 @@ export class DoctorsScheduleComponent implements OnInit {
   }
 
   getEventSpan(event, doctor): number {
+    
     return doctor.admissionDuration / event.duration;
   }
 
   findEvent(event, doctor: DoctorScheduleModel) {
-    console.log('((((((((((()))))))))))');
+    // console.log('((((((((((()))))))))))');
         
-    console.log(doctor.events.find(f => getTimeString(new Date(f.starting)) === event.time));
-    console.log('(((((((())))))))');
+    // console.log(doctor.events.find(f => getTimeString(new Date(f.starting)) === event.time));
+    // console.log('(((((((())))))))');
 
     return doctor.events.find(f => getTimeString(new Date(f.starting)) === event.time);
   }

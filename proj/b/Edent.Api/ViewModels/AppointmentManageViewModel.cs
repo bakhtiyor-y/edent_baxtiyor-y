@@ -12,6 +12,7 @@ namespace Edent.Api.ViewModels
         }
         public int Id { get; set; }
         public DateTimeOffset AppointmentDate { get; set; }
+        public DateTimeOffset AppointmentDateLast { get; set; } 
         public AppointmentStatus AppointmentStatus { get; set; }
         public string Description { get; set; }
         public PatientManageViewModel Patient { get; set; }

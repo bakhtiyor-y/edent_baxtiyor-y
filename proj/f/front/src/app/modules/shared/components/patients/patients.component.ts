@@ -74,7 +74,7 @@ export class PatientsComponent implements OnInit {
   }
 
   public loadItems(event, name = '') {
-    this.lastTableLazyLoadEvent = event;
+    this.lastTableLazyLoadEvent = event; 
     let params = new HttpParams()
       .set('filter', JSON.stringify(event));
 
@@ -85,6 +85,8 @@ export class PatientsComponent implements OnInit {
     }
 
     this.apiService.get('api/Patient', params).toPromise().then(th => {
+      console.log(`loadItems(event, name = '')`, th);
+      
       this.items = th.data;
       this.totalRecords = th.total;
     }).catch(error => {
@@ -121,6 +123,8 @@ export class PatientsComponent implements OnInit {
   }
 
   public viewHistory(item: PatientModel) {
+    console.log(' viewHistory(item: PatientModel) ', item);
+    
     const params = new HttpParams()
       .set('patientId', `${item.id}`);
     this.apiService.get('api/Recept/GetPatientRecepts', params)
