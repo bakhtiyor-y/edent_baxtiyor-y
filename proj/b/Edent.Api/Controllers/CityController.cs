@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Edent.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/cities")]
     [ApiController]
 
     public class CityController : BaseApiController<CityViewModel, City>
@@ -41,28 +41,26 @@ namespace Edent.Api.Controllers
 
         }
 
-        [HttpGet("GetByRegion")]
-        public IActionResult GetByRegion(int regionId)
+        [HttpGet("{regionId}")]
+        public async Task<IActionResult> GetByRegion(int regionId)
         {
-            var query = _cityService
+            var query = await _cityService
                 .Query()
                 .Include(i => i.Region)
-                .Where(w => w.RegionId == regionId);
+                .Where(w => w.RegionId == regionId)
+                .ToListAsync();
 
-            var result = _cityService.Mapper.Map<IEnumerable<CityViewModel>>(query);
+            var result = _cityService.Mapper.Map<List<CityViewModel>>(query);
             return Ok(result);
         }
 
-        [HttpPost("DeleteSelected")]
-        public IActionResult DeleteSelected([FromBody] IEnumerable<CityViewModel> models)
+        [HttpPost("delete-range")]
+        public async Task<IActionResult> DeleteSelected([FromBody] int[] cityIds)
         {
-            foreach (var item in models)
-            {
-                item.Region = null;
-                var city = _cityService.Mapper.Map<City>(item);
-                _cityService.Repository.Remove(city);
-            }
-            return Ok(_cityService.Repository.SaveChanges());
+            
+            await _cityService.Repository.RemoveRangeByIdsAsync(cityIds);
+            
+            return Ok(await _cityService.Repository.SaveChangesAsync());
         }
     }
 }

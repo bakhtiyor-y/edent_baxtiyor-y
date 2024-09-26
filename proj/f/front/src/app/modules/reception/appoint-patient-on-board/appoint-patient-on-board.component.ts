@@ -82,9 +82,7 @@ export class AppointPatientOnBoardComponent implements OnInit {
       const unixTime = date.getTime();
       this.apiService.get(`api/DentalChair/GetDoctorDentalChairsByDate?doctorId=${this.doctor.doctorId}&date=${unixTime}`)
         .toPromise()
-        .then(th => {          
-          console.log('==> ', th);
-          
+        .then(th => { 
           this.dentalChairs = th;
         }).catch(error => { })
         .finally(() => { });

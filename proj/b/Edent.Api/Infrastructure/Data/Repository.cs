@@ -80,6 +80,15 @@ namespace Edent.Api.Infrastructure.Data
             _context.Set<TEntity>().RemoveRange(entities);
         }
 
+        public async Task RemoveRangeByIdsAsync(int[] entitIds)
+        {
+            var a = await _context.Set<TEntity>()
+                .Where(a => entitIds.Contains(a.Id))
+                .ToListAsync();
+
+            _context.Set<TEntity>().RemoveRange(a);
+        }
+
         public bool SaveChanges()
         {
             return _context.SaveChanges() > 0;

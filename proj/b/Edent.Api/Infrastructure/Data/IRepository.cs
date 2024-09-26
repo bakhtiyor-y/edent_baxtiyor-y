@@ -28,6 +28,8 @@ namespace Edent.Api.Infrastructure.Data
 
         public void RemoveRange(params TEntity[] entities);
 
+        Task RemoveRangeByIdsAsync(int[] entitIds);
+
         public bool SaveChanges();
 
         public Task<int> SaveChangesAsync();

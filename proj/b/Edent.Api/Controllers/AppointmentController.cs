@@ -53,7 +53,6 @@ namespace Edent.Api.Controllers
             _patientToothService = patientToothService;
         }
 
-
         [HttpGet]
         [Authorize(Roles = "admin")]
         public IActionResult Get()
@@ -61,6 +60,7 @@ namespace Edent.Api.Controllers
 
             return Ok();
         }
+
 
         [HttpGet("GetById")]
         public IActionResult GetById(int id)
@@ -74,19 +74,32 @@ namespace Edent.Api.Controllers
             var result = _patientService.Mapper.Map<AppointmentViewModel>(query);
             return Ok(result);
         }
+                ///========================================================================================= 
+        
+
+
+
+
 
 
         [HttpGet("GetReceptionAppointments")]
         [Authorize(Roles = "reception, admin")]
-        public IActionResult GetReceptionAppointments([FromQuery] string filter, [FromQuery] string name = null, [FromQuery] int appointmentStatus = 99)
+        public IActionResult GetReceptionAppointments(
+            [FromQuery] string filter,
+            [FromQuery] DateTimeOffset fromDate,
+            [FromQuery] DateTimeOffset toDate,
+            [FromQuery] string name = null,
+            [FromQuery] int appointmentStatus = 99)
         {
 
+            var dateBegin = fromDate.ToLocalTime().Date;
+            var dateEnd = toDate.ToLocalTime().Date;
             var filterModel = Newtonsoft.Json.JsonConvert.DeserializeObject<TableFilterModel>(filter);
             var query = _appointmentService
                 .Query()
                 .Include("Doctor.User")
                 .Include("Patient")
-                .Where(w => w.EmployeeId == null);
+                .Where(w => w.EmployeeId == null && w.AppointmentDate > dateBegin && w.AppointmentDate <= dateEnd);
 
             if (!string.IsNullOrWhiteSpace(name))
             {
@@ -107,11 +120,23 @@ namespace Edent.Api.Controllers
             return Ok(new { Data = result, Total = totalRecord });
         }
 
+
+
+
+
+        ///=========================================================================================
+
+
+
+
+
+
+
         [HttpGet("GetDoctorAppointments")]
         [Authorize(Roles = "doctor, admin")]
         public IActionResult GetDoctorAppointments(long date)
         {
-            
+
             var appointmentDate = DateTimeOffset.FromUnixTimeMilliseconds(date);
             var userId = _userResolverService.CurrentUserId.HasValue ? _userResolverService.CurrentUserId.Value : 0;
             if (userId == 0)
@@ -475,6 +500,7 @@ namespace Edent.Api.Controllers
                 });
             }
         }
+
 
         [HttpGet("CancelByReception")]
         [Authorize(Roles = "reception, admin")]

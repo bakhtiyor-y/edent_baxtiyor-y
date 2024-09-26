@@ -14,7 +14,10 @@ import { EnumService } from 'src/app/core/services/enum.service';
   styleUrls: ['./patient-appointments.component.scss']
 })
 export class PatientAppointmentsComponent implements OnInit {
-
+  
+  
+  
+  
   public items: AppointmentModel[];
 
   public selectedItems: AppointmentModel[];
@@ -61,10 +64,14 @@ export class PatientAppointmentsComponent implements OnInit {
     this.editItem.appointmentDate = new Date(item.appointmentDate);
   }
 
+  // date1: string = new Date().toISOString();
+  date1: string = new Date("09/25/2024").toISOString();
+  date2: string = new Date("09/26/2024").toISOString();
+
   public loadItems(event, name = null, status = 99) {
     this.lastTableLazyLoadEvent = event;
     let params = new HttpParams()
-      .set('filter', JSON.stringify(event));
+      .set('filter', JSON.stringify(event)).set('fromDate', this.date1).set('toDate', this.date2);
     if (name) {
       params = new HttpParams()
         .set('filter', JSON.stringify(event))
@@ -80,6 +87,8 @@ export class PatientAppointmentsComponent implements OnInit {
     this.apiService.get('api/Appointment/GetReceptionAppointments', params).toPromise().then(th => {
       this.items = th.data;
       this.totalRecords = th.total;
+      console.log('GetReceptionAppointments ', th);
+      
     }).catch(error => {
     }).finally(() => {
       this.loading = false;
