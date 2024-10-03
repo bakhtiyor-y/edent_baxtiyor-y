@@ -123,14 +123,18 @@ export class PatientsComponent implements OnInit {
   }
 
   public viewHistory(item: PatientModel) {
-    console.log(' viewHistory(item: PatientModel) ', item);
-    
+    console.log(' viewHistory(item: PatientModel) ', item);    
     const params = new HttpParams()
       .set('patientId', `${item.id}`);
     this.apiService.get('api/Recept/GetPatientRecepts', params)
       .toPromise()
       .then(data => {
+        console.log('Recept/GetPatientRecepts ', data);
+        
         this.patientViewModel = { patient: item, recepts: data };
+
+        console.log('this.patientViewModel ', this.patientViewModel);
+        
         this.viewDialog = true;
       })
       .catch(error => { })

@@ -74,12 +74,6 @@ namespace Edent.Api.Controllers
             var result = _patientService.Mapper.Map<AppointmentViewModel>(query);
             return Ok(result);
         }
-                ///========================================================================================= 
-        
-
-
-
-
 
 
         [HttpGet("GetReceptionAppointments")]
@@ -91,15 +85,21 @@ namespace Edent.Api.Controllers
             [FromQuery] string name = null,
             [FromQuery] int appointmentStatus = 99)
         {
-
-            var dateBegin = fromDate.ToLocalTime().Date;
-            var dateEnd = toDate.ToLocalTime().Date;
-            var filterModel = Newtonsoft.Json.JsonConvert.DeserializeObject<TableFilterModel>(filter);
+            
             var query = _appointmentService
-                .Query()
-                .Include("Doctor.User")
-                .Include("Patient")
-                .Where(w => w.EmployeeId == null && w.AppointmentDate > dateBegin && w.AppointmentDate <= dateEnd);
+                                     .Query()
+                                     .Include("Doctor.User")
+                                     .Include("Patient")
+                                     .Where(w => w.EmployeeId == null);
+
+            if (fromDate != default(DateTimeOffset))
+            {
+                var dateBegin = fromDate.ToLocalTime().Date;
+                var dateEnd = toDate.ToLocalTime().Date;
+                query = query.Where(w => w.AppointmentDate >= dateBegin && w.AppointmentDate <= dateEnd);               
+            }
+
+            var filterModel = Newtonsoft.Json.JsonConvert.DeserializeObject<TableFilterModel>(filter);
 
             if (!string.IsNullOrWhiteSpace(name))
             {
@@ -119,16 +119,6 @@ namespace Edent.Api.Controllers
             var result = _patientService.Mapper.Map<IEnumerable<AppointmentViewModel>>(query);
             return Ok(new { Data = result, Total = totalRecord });
         }
-
-
-
-
-
-        ///=========================================================================================
-
-
-
-
 
 
 

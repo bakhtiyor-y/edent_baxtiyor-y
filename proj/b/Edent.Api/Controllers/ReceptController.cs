@@ -1,4 +1,5 @@
 ﻿using Edent.Api.Infrastructure.Entities;
+using Edent.Api.Infrastructure.Enums;
 using Edent.Api.Infrastructure.Filters;
 using Edent.Api.Models;
 using Edent.Api.Models.Report;
@@ -11,6 +12,7 @@ using PrimeNG.TableFilter;
 using PrimeNG.TableFilter.Models;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Edent.Api.Controllers
 {
@@ -218,17 +220,54 @@ namespace Edent.Api.Controllers
         }
 
         [HttpGet("GetPatientRecepts")]
-        public IActionResult GetPatientRecepts(int patientId)
+        public async Task<IActionResult> GetPatientRecepts(int patientId)
         {
-            var recepts = _receptService
-                             .Query()
-                             .Include("ReceptDentalServices.DentalService.DentalServicePrices")
-                             .Include("Treatments.PatientTooth.Tooth")
-                             .Include("Treatments.TreatmentDentalServices.DentalService.DentalServicePrices")
-                             .Include("Treatments.Diagnose")
-                             .AsNoTracking()
-                             .Where(w => w.PatientId == patientId)
-                             .AsEnumerable();
+
+
+            //var recepts = _receptService
+            //                .Query()
+            //                .Include("ReceptDentalServices.DentalService.DentalServicePrices")
+            //                .Include("Treatments.PatientTooth.Tooth")
+            //                .Include("Treatments.TreatmentDentalServices.DentalService.DentalServicePrices")
+            //                .Include("Treatments.Diagnose")
+            //                .AsNoTracking()
+            //                .Where(w => w.PatientId == patientId)
+            //                .AsEnumerable();
+
+            var recepts = await _receptService
+                 .Query()
+                 .Include("ReceptDentalServices.DentalService.DentalServicePrices")
+                 .Include("Treatments.PatientTooth.Tooth")
+                 .Include("Treatments.TreatmentDentalServices.DentalService.DentalServicePrices")
+                 .Include("Treatments.Diagnose")
+                 .AsNoTracking()
+                 .Where(w => w.PatientId == patientId)
+                 .Select(s => new ReceptCustomViewModel
+                 {
+                     Id = s.Id,
+                     AppointmentId = s.AppointmentId,
+                     DoctorId = s.DoctorId,
+                     PatientId = s.PatientId,
+                     Treatments = s.Treatments,
+                     ReceptDentalServices = s.ReceptDentalServices.Select(s1 => new ReceptDentalService
+                     {
+                         DentalService = s1.DentalService
+                     }),
+                     Doctor = new DoctorViewModel
+                     {
+                         FirstName = s.Doctor.FirstName,
+                         LastName = s.Doctor.LastName,
+                         Patronymic = s.Doctor.Patronymic,
+                         PhoneNumber = s.Doctor.User.PhoneNumber,
+                         Email = s.Doctor.User.Email,
+                         BirthDate =s.Doctor.BirthDate,
+                         Id = (int)s.DoctorId,
+                         Specialization = ((Infrastructure.Enums.Specialization)s.Doctor.SpecializationId).ToString().Replace('_', '-')
+
+                     },
+                     CreatedDate = s.CreatedDate,
+
+                 }).ToListAsync();
 
             foreach (var recept in recepts)
             {

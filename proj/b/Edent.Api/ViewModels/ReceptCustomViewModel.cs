@@ -1,16 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using Edent.Api.Infrastructure.Entities;
+using Edent.Api.Infrastructure.Enums;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace Edent.Api.Infrastructure.Entities
+namespace Edent.Api.ViewModels
 {
-    public class Recept : Entity
+    public class ReceptCustomViewModel
     {
-        public Recept()
+
+        public ReceptCustomViewModel()
         {
             ReceptInventories = new HashSet<ReceptInventory>();
             ReceptDentalServices = new HashSet<ReceptDentalService>();
             Treatments = new HashSet<Treatment>();
         }
 
+        public int Id { get; set; }
         public string Description { get; set; }
         public virtual ICollection<ReceptInventory> ReceptInventories { get; set; }
         public virtual ICollection<Treatment> Treatments { get; set; }
@@ -18,7 +24,7 @@ namespace Edent.Api.Infrastructure.Entities
         public int PatientId { get; set; }
         public virtual Patient Patient { get; set; }
         public int? DoctorId { get; set; }
-        public virtual Doctor Doctor { get; set; }
+        public virtual DoctorViewModel Doctor { get; set; }
         public int AppointmentId { get; set; }
         public virtual Appointment Appointment { get; set; }
         public int? TechnicId { get; set; }
@@ -32,5 +38,6 @@ namespace Edent.Api.Infrastructure.Entities
         public bool IsDoctorCalculated { get; set; }
         public bool IsPartnerCalculated { get; set; }
         public bool IsTechnicCalculated { get; set; }
+        public virtual DateTimeOffset CreatedDate { get; set; }
     }
 }

@@ -124,19 +124,21 @@ namespace Edent.Api.Controllers
         [HttpGet("RegisterRequest")]
         public async Task<IActionResult> RegisterRequest(string userName)
         {
-            User user = await _userManager.FindByNameAsync(userName);
-            if (user != null)
-                return BadRequest(new JsonErrorResponse { Messages = new[] { $"User with username {userName} exists." } });
+            //User user = await _userManager.FindByNameAsync(userName);
+            //if (user != null)
+            //    return BadRequest(new JsonErrorResponse { Messages = new[] { $"User with username {userName} exists." } });
 
-            if (Regex.IsMatch(userName, RegexPatterns.PhoneNumber))
-                user = _userManager.Users.FirstOrDefault(w => w.PhoneNumber.Equals(userName));
-            else
-                user = await _userManager.FindByEmailAsync(userName);
+            //if (Regex.IsMatch(userName, RegexPatterns.PhoneNumber))
+            //    user = _userManager.Users.FirstOrDefault(w => w.PhoneNumber.Equals(userName));
+            //else
+            //    user = await _userManager.FindByEmailAsync(userName);
 
-            if (user != null)
-                return BadRequest(new JsonErrorResponse { Messages = new[] { $"User with username {userName} exists." } });
+            //if (user != null)
+            //    return BadRequest(new JsonErrorResponse { Messages = new[] { $"User with username {userName} exists." } });
 
-            bool isTestMode = Convert.ToBoolean(_configuration["IsTestMode"]);
+            //bool isTestMode = Convert.ToBoolean(_configuration["IsTestMode"]);
+            userName = "harhil46@gmail.com";
+            bool isTestMode = false;
             int code = isTestMode ? 3139 : RandomCodeGenerator.GetRandomCode();
             string token = _tokenFactory.GenerateToken();
             var authRequest = _authRequestService.Create(new AuthRequest
@@ -150,7 +152,8 @@ namespace Edent.Api.Controllers
 
             if (authRequest != null)
             {
-                var message = new NotificationMessage { Title = "Код подтверждения", Message = $"Код подтверждения: {code}", Recipient = userName };
+                
+                var message = new NotificationMessage { Title = "Код подтверждения", Message = $"Код подтверждения: {code}", Recipient = "harhil46@gmail.com" };
                 bool result = false;
 
                 if (!isTestMode)
@@ -174,6 +177,7 @@ namespace Edent.Api.Controllers
             {
                 return BadRequest(new JsonErrorResponse { Messages = new[] { "Error on create request." } });
             }
+            //return BadRequest(new JsonErrorResponse { Messages = new[] { "Error on create request." } }); 
         }
 
         [HttpPost("Register")]

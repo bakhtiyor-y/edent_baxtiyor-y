@@ -32,7 +32,7 @@ namespace Edent.Api.Services.Notification.Smtp
                         Host = _emailProvider.Value.Host,
                         Port = _emailProvider.Value.Port,
                         DeliveryMethod = SmtpDeliveryMethod.Network,
-                        EnableSsl = _emailProvider.Value.UseSSL,
+                        EnableSsl = true,
                         Credentials = new System.Net.NetworkCredential(_emailProvider.Value.UserName, _emailProvider.Value.Password)
                     };
 

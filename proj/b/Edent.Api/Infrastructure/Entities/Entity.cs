@@ -30,7 +30,7 @@ namespace Edent.Api.Infrastructure.Entities
             {
                 return _createdDate;
             }
-            protected set
+            set // o'zgardi
             {
                 _createdDate = value;
             }
