@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,8 +16,10 @@ import { EnumService } from 'src/app/core/services/enum.service';
 export class PatientEditFormComponent implements OnInit {
 
   public isNew: boolean;
+  public isPatientFound: boolean = false;
   @Input() public set model(item: PatientManageModel) {
     if (item) {
+      
       this.isNew = !item.id || item.id === 0;
       if (this.isNew) {
         this.selectedCountryId = this.countries.find(f => f.name.toUpperCase() === 'УЗБЕКИСТАН')?.id;
@@ -31,6 +34,7 @@ export class PatientEditFormComponent implements OnInit {
       this.editForm.patchValue(item);
       this.onCountryChange(this.selectedCountryId);
     } else {
+      console.log("this.editForm.reset(); ", item);
       this.editForm.reset();
     }
   }
@@ -66,6 +70,9 @@ export class PatientEditFormComponent implements OnInit {
   public selectedRegionId = 0;
   public genders: any[] = [];
   public ageTypes: any[] = [];
+
+  public existsDialog: boolean;
+  public existsItem: PatientManageModel;
 
   constructor(private fb: FormBuilder,
     private apiService: ApiService,
@@ -113,26 +120,51 @@ export class PatientEditFormComponent implements OnInit {
     }
   }
 
-  save() {
+  save(par: string) {
+    
     this.submitted = true;
     if (!this.editForm.valid) {
       return;
     }
     const patient = this.editForm.value;
-    if (patient.id === 0) {
-      this.apiService.post('api/Patient', patient).toPromise()
-        .then(th => {
-          this.saved.emit({ item: th, isNew: true });
-          this.editForm.reset();
+    const fullname = patient.firstName + " " + patient.lastName;
+    if (patient.id === 0 || par == "fromSave") {
+      console.log("this.existsDialog == undefined || par == ", par);
+      let params = new HttpParams()
+      .set('fullname', fullname)
+      .set('birthDate', patient.birthDate.toISOString());
+      
+
+      if(par != "fromSave"){
+        this.apiService.get('api/Patient/CheckIfExists', params)
+        .toPromise()
+        .then(th => { 
+          if(th){
+            this.existsItem = th;
+            patient.id = th.id;
+            this.existsItem.birthDate = new Date(th.birthDate);
+            document.querySelector("#editformid").classList.add("patientfound");
+            this.isPatientFound = true;
+            this.existsDialog = true;
+          } else {
+            console.log("innn", patient);
+            
+            this.addPatientToDb(patient);
+          }
         })
-        .catch(error => {
-          this.messageService.add({ severity: 'error', summary: this.translate.instant('ERROR'), detail: this.translate.instant('ERROR_ON_CREATE'), life: 3000 });
-        })
+        .catch(error => { })
         .finally(() => { });
+      } else {
+        this.addPatientToDb(patient);
+      }
+      
     } else {
       this.apiService.put('api/Patient', patient).toPromise()
         .then(th => {
+          console.log("UPDATE ", this.existsDialog)
+          
           this.saved.emit({ item: th, isNew: false });
+          this.existsDialog = false;
           this.editForm.reset();
         })
         .catch(error => {
@@ -143,6 +175,7 @@ export class PatientEditFormComponent implements OnInit {
   }
 
   public close() {
+    this.onClosedExists()
     this.regions = [];
     this.cities = [];
     this.selectedCountryId = 0;
@@ -151,4 +184,25 @@ export class PatientEditFormComponent implements OnInit {
     this.closed.emit();
   }
 
+  public onClosedExists(){
+    this.existsDialog = false;
+    this.isPatientFound = false;
+    document.querySelector("#editformid").classList.remove("patientfound");
+  }
+
+  addPatientToDb(patient){
+    this.apiService.post('api/Patient', patient).toPromise()
+    .then(th => {
+      this.saved.emit({ item: th, isNew: true });
+      console.log("POST ", th);
+      
+      this.editForm.reset();
+    })
+    .catch(error => {
+      this.messageService.add({ severity: 'error', summary: this.translate.instant('ERROR'), detail: this.translate.instant('ERROR_ON_CREATE'), life: 3000 });
+    })
+    .finally(() => { });
+  }
 }
+
+

@@ -1,51 +1,52 @@
-<p-dialog [(visible)]="isOpen" [style]="{width: '700px'}" header="{{ isNew ? ('ADD'|translate):('EDIT'|translate) }}"
-    [modal]="true" styleClass="p-fluid"  [draggable]="false" (onHide)="close()" id="editformid">
+
+<p-dialog [(visible)]="isOpen1" [style]="{width: '700px'}" header="{{ true ? ('SIMILAR_PATIENT'|translate):('EDIT'|translate) }}"
+    [modal]="false"  [draggable]="false" styleClass="p-fluid existsmodal" id = "exists-id" >
     <ng-template pTemplate="content">
-        <form [formGroup]="editForm">
+        <form [formGroup]="editFormExists">
             <div class="p-formgrid p-grid">
                 <div class="p-field p-col-4">
                     <label for="lastName">{{ 'LAST_NAME' | translate }}</label>
-                    <input type="text" pInputText id="lastName" formControlName="lastName" required autofocus />
+                    <input type="text" pInputText id="lastName" formControlName="lastName" required disabled/>
                     <small class="p-error block"
-                        *ngIf="editForm.get('lastName').invalid && (editForm.get('lastName').dirty || editForm.get('lastName').touched)">{{
+                        *ngIf="editFormExists.get('lastName').invalid && (editFormExists.get('lastName').dirty || editFormExists.get('lastName').touched)">{{
                         'LAST_NAME_IS_REQUIRED' | translate
                         }}</small>
                 </div>
                 <div class="p-field p-col-4">
                     <label for="firstName">{{ 'FIRST_NAME' | translate }}</label>
-                    <input type="text" pInputText id="firstName" formControlName="firstName" required />
+                    <input type="text" pInputText id="firstName" formControlName="firstName" required disabled/>
                     <small class="p-error block"
-                        *ngIf="editForm.get('firstName').invalid && (editForm.get('firstName').dirty || editForm.get('firstName').touched)">{{
+                        *ngIf="editFormExists.get('firstName').invalid && (editFormExists.get('firstName').dirty || editFormExists.get('firstName').touched)">{{
                         'FIRST_NAME_IS_REQUIRED' |
                         translate }}</small>
                 </div>
                 <div class="p-field p-col-4">
                     <label for="patronymic">{{ 'PATRONYMIC' | translate }}</label>
-                    <input type="text" pInputText id="patronymic" formControlName="patronymic" />
+                    <input type="text" pInputText id="patronymic" formControlName="patronymic" disabled/>
                 </div>
             </div>
             <div class="p-formgrid p-grid">
                 <div class="p-field p-col-4">
                     <label for="birthDate">{{ 'BIRTH_DATE' | translate }}</label>
-                    <p-calendar formControlName="birthDate" dateFormat="dd.mm.yy" [monthNavigator]="true"
-                        [yearNavigator]="true" yearRange="1930:2030" required></p-calendar>
+                    <p-calendar showOnFocus="false" formControlName="birthDate" dateFormat="dd.mm.yy" [monthNavigator]="true"
+                        [yearNavigator]="true" yearRange="1930:2030"></p-calendar>
                     <small class="p-error block"
-                        *ngIf="editForm.get('birthDate').invalid && (editForm.get('birthDate').dirty || editForm.get('birthDate').touched)">{{
+                        *ngIf="editFormExists.get('birthDate').invalid && (editFormExists.get('birthDate').dirty || editFormExists.get('birthDate').touched)">{{
                         'BIRTH_DATE_IS_REQUIRED' |
                         translate }}</small>
                 </div>
                 <div class="p-field  p-col-4">
                     <label for="phoneNumber">{{ 'PHONE_NUMBER' | translate }}</label>
-                    <p-inputMask inputId="phoneNumber" formControlName="phoneNumber" mask="99 999 99 99" required>
+                    <p-inputMask inputId="phoneNumber" formControlName="phoneNumber" mask="99 999 99 99" required disabled>
                     </p-inputMask>
                     <small class="p-error block"
-                        *ngIf="editForm.get('phoneNumber').invalid && (editForm.get('phoneNumber').dirty || editForm.get('phoneNumber').touched)">{{
+                        *ngIf="editFormExists.get('phoneNumber').invalid && (editFormExists.get('phoneNumber').dirty || editFormExists.get('phoneNumber').touched)">{{
                         'PHONE_NUMBER_IS_REQUIRED' |
                         translate }}</small>
                 </div>
                 <div class="p-field  p-col-4">
                     <label for="email">{{ 'EMAIL' | translate }}</label>
-                    <input type="email" pInputText id="email" formControlName="email" />
+                    <input type="email" pInputText id="email" formControlName="email" disabled/>
                 </div>
             </div>
             <div class="p-formgrid p-grid">
@@ -83,7 +84,7 @@
                     <p-dropdown [options]="cities" inputId="city" formControlName="cityId" optionLabel="name"
                         optionValue="id" placeholder="{{'SELECT_CITY'|translate}}" required></p-dropdown>
                     <small class="p-error block"
-                        *ngIf="editForm.get('cityId').invalid && (editForm.get('cityId').dirty || editForm.get('cityId').touched)">{{
+                        *ngIf="editFormExists.get('cityId').invalid && (editFormExists.get('cityId').dirty || editFormExists.get('cityId').touched)">{{
                         'CITY_IS_REQUIRED' | translate
                         }}</small>
                 </div>
@@ -100,15 +101,9 @@
     </ng-template>
 
     <ng-template pTemplate="footer">
-        <!-- <button pButton pRipple label="{{'CANCEL'|translate}}" icon="pi pi-times" class="p-button-text"
-            (click)="close()"></button> -->
-
-        <button *ngIf="isPatientFound" pButton pRipple label='Сохранить как новый пациент' icon="pi pi-check" class="p-button-text" (click)="save('fromSave')"
-            [disabled]="!editForm.valid"></button>
-
-        <button pButton pRipple label=" {{ isPatientFound ? ('Обновить данные пациента'):('SAVE'|translate) }}" icon="pi pi-check" class="p-button-text" (click)="save()"
-            [disabled]="!editForm.valid"></button>
+        <button pButton pRipple label="{{'CANCEL'|translate}}" icon="pi pi-times" class="p-button-text"
+            (click)="close()"></button>
+        <button pButton pRipple label="{{'SAVE'|translate}}" icon="pi pi-check" class="p-button-text" (click)="save()"
+            [disabled]="!editFormExists.valid"></button>
     </ng-template>
 </p-dialog>
-
-<app-patient-already-exists [isOpen1]="existsDialog" [modelExists]="existsItem" (closedExists)="onClosedExists()"></app-patient-already-exists>

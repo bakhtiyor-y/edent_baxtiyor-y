@@ -338,6 +338,7 @@
 	"SET_PASSWORD": "Установить пароль",
 	"SET_TECHNIC": "Назначить техника",
 	"SET_TREATMENT": "Назначить услуги",
+	"SIMILAR_PATIENT": "Пациент с такими данными уже существует!",
 	"SOMETHING_WENT_WRIONG": "Что то пошло не так",
 	"SPECIALIZATION": "Специализация",
 	"SPECIALIZATIONS": "Специализации",

@@ -45,6 +45,7 @@ import { SplitButtonModule } from 'primeng/splitbutton';
 import { PatientToothHistoryComponent } from './components/patient-tooth-history/patient-tooth-history.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { PatientAlreadyExistsComponent } from './components/patients/patient-edit-form/patient-already-exists/patient-already-exists.component';
 
 export function translateFactory(http: HttpClient): any {
     return new TranslateHttpLoader(http);
@@ -102,6 +103,7 @@ const MODULES = [
     exports: [
         ...MODULES,
         ToothControlComponent,
+        PatientAlreadyExistsComponent,
         ViewReceptComponent,
         PatientsComponent,
         PatientEditFormComponent,
@@ -119,7 +121,9 @@ const MODULES = [
         SetTechnicComponent,
         TeethControlComponent,
         PatientQuestionnaireComponent,
-        PatientToothHistoryComponent]
+        PatientToothHistoryComponent,
+        PatientAlreadyExistsComponent,
+        ]
 })
 export class SharedModule {
 

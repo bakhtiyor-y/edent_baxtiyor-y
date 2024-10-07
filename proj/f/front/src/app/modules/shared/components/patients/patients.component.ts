@@ -40,7 +40,7 @@ export class PatientsComponent implements OnInit {
 
   add() {
     this.editItem = { id: 0 } as PatientManageModel;
-    this.editItem.birthDate = new Date();
+    this.editItem.birthDate = new Date();    
     this.editDialog = true;
   }
 

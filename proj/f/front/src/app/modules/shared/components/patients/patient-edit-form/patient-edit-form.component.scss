@@ -1,0 +1,15 @@
+:host ::ng-deep { 
+    .patientfound .p-dialog-mask > div{
+        transform: translateX(-351px);
+    }
+
+    .patientfound .p-dialog .p-dialog-footer{
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .p-button:focus{
+        box-shadow: none;
+    }
+
+}
